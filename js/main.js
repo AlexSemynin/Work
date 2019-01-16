@@ -330,8 +330,6 @@ function AddDialog(content, parameter) { //
                 container = $("<div class='DynamicDialogContainer ObjectLink'></div>");
                 container.append(content);
                 $('#DialogMainContainer').append(container); 
-                 p = $('#DialogMainContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
-                 heightWindowSetting(p);
                 break;
             // case 'uplObjParametr' || 'uploadElParametr':
             //     container = $("<div class='DynamicDialogContainer SettingsWindowCreatMailItem'></div>");
@@ -352,7 +350,6 @@ function AddDialog(content, parameter) { //
              if (p.length){
                  p.find(".dxpc-contentWrapper").addClass('StyleClassHeight1');
                  p.find(".dxpc-content.TestPopupclass").children().addClass('StyleClassHeight2');
-                 //p.find("#VisibleColumns_D").attr("style", "height: 380px; overflow: hidden auto;")
              }
          }
 function SendMessage(ctrl, editor, send, panel) {
