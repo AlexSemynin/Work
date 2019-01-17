@@ -12902,29 +12902,32 @@ display:none;
           overflow-x: scroll;*/
     } 
     .ObjectLink .right-side-splitter.jqx-widget-content.jqx-splitter-panel.jqx-reset{
-        overflow-x: scroll;
+        overflow-x: auto;
         /*overflow-x: hidden auto;*/
     }
     .ObjectLink .dxgvControl_Moderno.Grid-Control-Class2.Working_Grid.dxgv{
-        width: 600px;
+        width: 777px;
     }
     .ObjectLink .dxgvHSDC{
-        width:600px;
+        width: 777px;
     }
     .ObjectLink .dxgvHSDC>*{
-        width: 600px;
+        width: 777px;
     }
     .ObjectLink .dxAC{
-        width: 600px;
+        width: 777px;
     }
     .ObjectLink .dxgvPagerBottomPanel_Moderno.gridview_footer{
-        width: 600px;
+        width: 777px;
     }
     .ObjectLink .dxgvPagerBottomPanel_Moderno.gridview_footer .dxpLite_Moderno{
-        min-width: 600px !important;
+        min-width: 777px !important;
     }
     .ObjectLink .grid-control,.ObjectLink .horizontal-split{
-        width: 600px;
+        width: 777px;
+    }
+    .ObjectLink .dxgvHSDC{
+        padding-right: 0px !important;
     }
 }
 @media(max-width: 620px){
