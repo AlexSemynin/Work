@@ -12891,7 +12891,7 @@ display:none;
         margin-right: -50%;
         transform: translate(-50%, -50%); 
     }
-
+    /*Ширина*/
     .ObjectLink .Test2Class{
         width: 98vw;
     } 
@@ -12928,4 +12928,10 @@ display:none;
     .ObjectLink .left-side-splitter.jqx-widget-content.jqx-splitter-panel.jqx-reset{
         overflow-x: scroll;
     }
+}
+@media(max-height: 445px){
+    .ObjectLink .TestPopupclass>div:nth-child(1) {
+        min-height: 250px !important;
+        height: calc(100vh - 42px) !important;
+    } 
 }
