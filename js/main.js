@@ -308,7 +308,7 @@ function AddDialog(content, parameter) { //
                 container = $("<div class='DynamicDialogContainer SettingsWindowPageProperty'></div>");
                 container.append(content);
                 $('#DialogMainContainer').append(container); 
-                 p = $('#DialogMainContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
+                 p = $('.SettingsWindowPageProperty').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
                  heightWindowSetting(p);
                  // widthWindowSetting(p);
                 break;
@@ -316,14 +316,14 @@ function AddDialog(content, parameter) { //
                 container = $("<div class='DynamicDialogContainer SettingsWindowCreatMailItem'></div>");
                 container.append(content);
                 $('#DialogMainContainer').append(container); 
-                 p = $('#DialogMainContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
+                 p = $('.SettingsWindowCreatMailItem').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
                  heightWindowSetting(p);
                 break;
             case 'CreatMailItemParametrTASK':
                 container = $("<div class='DynamicDialogContainer SettingsWindowCreatMailItemTASK'></div>");
                 container.append(content);
                 $('#DialogMainContainer').append(container); 
-                 p = $('#DialogMainContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
+                 p = $('.SettingsWindowCreatMailItemTASK').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
                  heightWindowSetting(p);
                 break;
             case 'ObjectLink':
