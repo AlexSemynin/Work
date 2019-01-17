@@ -12923,6 +12923,9 @@ display:none;
     .ObjectLink .dxgvPagerBottomPanel_Moderno.gridview_footer .dxpLite_Moderno{
         min-width: 600px !important;
     }
+    .ObjectLink .grid-control,.ObjectLink .horizontal-split{
+        width: 600px;
+    }
 }
 @media(max-width: 620px){
 
