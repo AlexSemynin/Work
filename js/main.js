@@ -301,10 +301,10 @@ function RefreshPanel(RefId, ObjId, ParentId, control, justDo) {
 //     container.append(content);
 //     $('#DialogMainContainer').append(container);
 // }
-function AddDialog(content, parameter) { //
-        var container = $("<div class='DynamicDialogContainer></div>"),
+function AddDialog(content, parametr) { //
+        var container = $("<div class='DynamicDialogContainer'></div>"),
         p;
-        switch(parameter){
+        switch(parametr){
             case 'PagePropertyParametr':
                 container.addClass("SettingsWindowPageProperty");
                 break;
@@ -314,23 +314,17 @@ function AddDialog(content, parameter) { //
             case 'CreatMailItemParametrTASK':
                 container.addClass("SettingsWindowCreatMailItemTASK");
                 break;
-            p = $('.SettingsWindowCreatMailItem').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
-            heightWindowSetting(p);
             case 'ObjectLink':
                 container.addClass("ObjectLink"); 
                 break;
-            // case 'uplObjParametr' || 'uploadElParametr':
-            //     container = $("<div class='DynamicDialogContainer SettingsWindowCreatMailItem'></div>");
-            //     // var DDC = $('.DynamicDialogContainer')[1];
-            //     // DDC.addClass('SettingsWindowSECOndDynamicDialogContainer');
-            //     container.append(content);
-            //     $('#DialogMainContainer').append(container); 
-            //      p = $('#DialogMainContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
-            //      heightWindowSetting(p);
             default:
         } 
         container.append(content);
         $('#DialogMainContainer').append(container);  
+        if(container.hasClass('SettingsWindowPageProperty') || container.hasClass('SettingsWindowCreatMailItem') || container.hasClass('SettingsWindowCreatMailItemTASK')){
+            p = $('.DynamicDialogContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
+            heightWindowSetting(p);
+        }
     }
      function heightWindowSetting(obj){
              var p = $(obj);
