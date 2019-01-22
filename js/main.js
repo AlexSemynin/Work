@@ -302,34 +302,22 @@ function RefreshPanel(RefId, ObjId, ParentId, control, justDo) {
 //     $('#DialogMainContainer').append(container);
 // }
 function AddDialog(content, parameter) { //
-        var container, p;
+        var container = $("<div class='DynamicDialogContainer></div>"),
+        p;
         switch(parameter){
             case 'PagePropertyParametr':
-                container = $("<div class='DynamicDialogContainer SettingsWindowPageProperty'></div>");
-                container.append(content);
-                $('#DialogMainContainer').append(container); 
-                 p = $('.SettingsWindowPageProperty').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
-                 heightWindowSetting(p);
-                 // widthWindowSetting(p);
+                container.addClass("SettingsWindowPageProperty");
                 break;
             case 'CreatMailItemParametr':
-                container = $("<div class='DynamicDialogContainer SettingsWindowCreatMailItem'></div>");
-                container.append(content);
-                $('#DialogMainContainer').append(container); 
-                 p = $('.SettingsWindowCreatMailItem').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
-                 heightWindowSetting(p);
+                container.addClass("SettingsWindowCreatMailItem");
                 break;
             case 'CreatMailItemParametrTASK':
-                container = $("<div class='DynamicDialogContainer SettingsWindowCreatMailItemTASK'></div>");
-                container.append(content);
-                $('#DialogMainContainer').append(container); 
-                 p = $('.SettingsWindowCreatMailItemTASK').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
-                 heightWindowSetting(p);
+                container.addClass("SettingsWindowCreatMailItemTASK");
                 break;
+            p = $('.SettingsWindowCreatMailItem').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
+            heightWindowSetting(p);
             case 'ObjectLink':
-                container = $("<div class='DynamicDialogContainer ObjectLink'></div>");
-                container.append(content);
-                $('#DialogMainContainer').append(container); 
+                container.addClass("ObjectLink"); 
                 break;
             // case 'uplObjParametr' || 'uploadElParametr':
             //     container = $("<div class='DynamicDialogContainer SettingsWindowCreatMailItem'></div>");
@@ -340,10 +328,9 @@ function AddDialog(content, parameter) { //
             //      p = $('#DialogMainContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
             //      heightWindowSetting(p);
             default:
-                container = $("<div class='DynamicDialogContainer'></div>");
-                container.append(content);
-                $('#DialogMainContainer').append(container);
-        }   
+        } 
+        container.append(content);
+        $('#DialogMainContainer').append(container);  
     }
      function heightWindowSetting(obj){
              var p = $(obj);
