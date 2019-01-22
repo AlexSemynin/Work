@@ -10710,6 +10710,11 @@ background-image: url(../Images/refresh.ico);
 ._filter_mode_tree{
 
 }
+@media(max-width: 406px){
+    .filter_option_panel ._tree_filters_option, .filter_option_panel ._grid_filters_option{
+        width: 49%;
+    }
+}
 ._filter_mode_tree ._grid_filters_option{
         display: none;
 }
