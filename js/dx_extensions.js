@@ -163,7 +163,8 @@ var callBackPanelProto = {
             console.log(e);
         }
         dialogHelper.initControls(parent);
-      //  dialogHelper.OnResize(parent);
+        if ($('body').hasClass('mobile_screen'))
+            dialogHelper.OnResize(parent);
         if (parent.parents('.TableContainerColumn').length) {
 
             //dialogHelper.initControls(parent);
@@ -347,16 +348,33 @@ var callBackPanelProto = {
             }
         });
     },
+    ShowCommand: function () {
+        var args = arguments;
+        this.Commands().forEach(function (entry) {
+            for (i = 0; i < args.length; i++) {
+                if (entry.hasClass(args[i]) && dialogHelper.CanShow(entry)) {
+                    entry.css({ "display": "inline-block" });
+                }
+            }
+        });
+    },
     RefreshContentData: function (elem) {
-        if (this.Components().Tree.cpStructureMode)
+        var tree = this.Components().Tree;
+        if (tree && tree.cpStructureMode)
             return this.Components().Tree.PerformCallback();
-        this.PerformCallback();
+        this.Reload();
     }
 }
 
 var treeListProto = {
     onInit: function(s,e){
-        s.ScrollTo(s.cpFocusId);
+        //s.ScrollTo(s.cpFocusId); %TODO
+      
+        setTimeout(function () {
+            s.AdjustControl();
+            s.MakeNodeVisible(s.GetFocusedNodeKey());
+         
+        }, 500);
         s.InitRowCommands(null,true);
         if (s.cpInitOnRoot)
         {
@@ -375,7 +393,13 @@ var treeListProto = {
         };
     },
     BeforeBeginCallback: function (s, e) {
+        s.SetCallBackArguments("VerticalScrollPosition", s.GetVerticalScrollPosition());
         e.customArgs['CallBackArgs'] = s['cpCallBackArgs'];
+    },
+    EndCallback: function (s, e) {
+        s.CalculateUserValues(true);
+        s.InitRowCommands(); 
+        s.SetVerticalScrollPosition(s.GetCallBackArguments().VerticalScrollPosition);
     },
 
     GetParentIdByElement: function (element) {
@@ -652,7 +676,8 @@ var gridViewProto = {
                 }
             }
         });
-    },HideContextEvents: function () {
+    },
+    HideContextEvents: function () {
         this.GetRowContextMenu().GetRootItem().items.forEach(function (item) {
             if (item.name.startsWith(gridViewProto.contexUserItemClass))
                 item.SetVisible(false);
@@ -839,6 +864,17 @@ var valueHelper = function (data, dxControl) {
                     this.control.GetValue = function () { return this.cpValue; };
                     this.isNative = true;
                     break;
+                default:
+                    if (this.control.cpAsUserControl)
+                    {
+                        var control = this.control, data = this.data;
+                        control.SetValue(data.Id);
+                        control.EnsureDropDownLoaded(function () {
+                            control.SetValue(data.Id);
+                            control.SetText(data.Text);
+                        })
+                    }
+                    break;
             }
             this.isNative && this.control.RaiseValueChanged();
             return;
@@ -959,6 +995,13 @@ function OnCallBackError(s, e) {
             case 1:
                 $(s.GetInputElement()).attr('onclick', '');
                 s.inputElement.value = (s.cpNullText || '');
+                if (s.cpAsUserControl && s.EnsureDropDownLoaded)
+                {
+                    s.SetValue(null);
+                    s.EnsureDropDownLoaded(function () {
+                        s.SetValue(null);
+                    });
+                }
                 s.RaiseValueChanged();
                 break;
             case 3:
@@ -1058,9 +1101,13 @@ function OnCallBackError(s, e) {
         mode = CurrentGlobal.GetViewMode();
         if (mode != "Tree")
             grid.PerformCallback();
-
-        if (mode === "Tree") {
-            s.RaiseCustomTreeListClick(s,e);
+        else
+        {
+            s.RaiseCustomTreeListClick(s, e);
+            //if (!row.parents('tr').first().data('canbeparent'))
+            //    CurrentGlobal.HideCommand('_create');
+            //else
+            //    CurrentGlobal.ShowCommand('_create');
         }
 
         if (!CurrentGlobal.ShowPanel() || mode != "Tree") {
@@ -1079,7 +1126,6 @@ function OnCallBackError(s, e) {
 }
 
     function GridContextMenuClick(s, e, tree) {
-       
 
         if (e.objectType == "emptyrow" && e.item.name == "refresh")
             s.PerformCallback();
@@ -1096,7 +1142,7 @@ function OnCallBackError(s, e) {
                 return $(CurrentGlobal.mainElement).find(selector).trigger('click');
             }
 
-            var id = parseInt(s.GetSelectedKeysOnPage());
+            var id = parseInt(CurrentGlobal.GetSelectedKey());
 
             if (e.item.name == "dx_sign_row") {
                 signatures.Init(s.GetReferenceData().ReferenceId, id);
@@ -1107,6 +1153,11 @@ function OnCallBackError(s, e) {
             if (e.item.name == "refresh") {
                 var control = tree ? CurrentTree : s;
                 control.PerformCallback();
+                return;
+            }
+
+            if (e.item.name == "pageProperty") {
+                PageProperty();
                 return;
             }
 
@@ -1139,6 +1190,8 @@ function OnCallBackError(s, e) {
             }
             else {
                 panel = $(eval(s.GetCallBackArguments().GlobalPanelName).mainElement);
+                if (tree)
+                    panel = $(CurrentGlobal.mainElement);
             }
             var selector = command.selector + ':first' + (command.selector.indexOf('_user_event') !== -1 ? '' : ' .CommandButton');
             panel.find(selector).trigger('click');
@@ -1307,7 +1360,7 @@ function OnCallBackError(s, e) {
     }
 
     function tlData_StartDragNode(s, e) {
-        if (s.cpStructureMode)
+        if (s.cpStructureMode || $('body').hasClass('mobile_screen'))
         {
             e.cancel = true;
             return false;
@@ -1615,7 +1668,12 @@ function OnCallBackError(s, e) {
                 show('._prop');
             }
 
-             dialogHelper.ShowDefaultCommands(parent);
+            dialogHelper.ShowDefaultCommands(parent);
+            if (CurrentGlobal.UseTreeState())
+            {
+                var trigger = item.data('canbeparent') ? CurrentGlobal.ShowCommand : CurrentGlobal.HideCommand;
+                trigger.call(CurrentGlobal, ('_create'));
+            }
         },
     data = $(this).data('init');
         if (!data)
@@ -1634,7 +1692,8 @@ function OnCallBackError(s, e) {
                     style = item.parents('.ad_li_menu,._operations').length ? "block" : "inline-block";
                 if (grid)
                     contextItem = grid.GetUserContextItemByID(data.u[i]);
-                contextItem && contextItem.SetVisible(true);
+                if (typeof(contextItem) != 'undefined' && contextItem)
+                    contextItem.SetVisible(true);
                 if (dialogHelper.CanShow(item))
                     item.css({ "display": style });
             }
@@ -1787,7 +1846,7 @@ dialogHelper.initControls = function (container) {
    // });
 }
 dialogHelper.OnResize = function ($elem) {
-    if (typeof ($elem) != 'undefined' && !($elem instanceof jQuery) && $elem.modal)
+    if (typeof $elem !== 'undefined' && !($elem instanceof jQuery) && $elem.modal)
         $elem = $($elem.windowElements[-1]);
 
     var selector = $elem ? $elem.find('.commands-control:visible') : $('.commands-control:visible');
@@ -1809,7 +1868,7 @@ dialogHelper.OnResize = function ($elem) {
         {
             var r = CurrentGrid.GetRow(CurrentGrid.cpFocusIndex || 0);
             InitCommands.call(r, { target: r }, false);
-            var visibleElems = $.makeArray(visibleElems).filter(function (item) {
+            visibleElems = $.makeArray(visibleElems).filter(function (item) {
                 return $(item).is(':visible');
             });
         }
@@ -1829,7 +1888,7 @@ dialogHelper.OnResize = function ($elem) {
             InitCommands.call(r, { target: r }, false);
             var visibleElems = $.makeArray(visibleElems).filter(function (item) {
                 return $(item).is(':visible');
-            })
+            });
         }
         
 
@@ -1853,8 +1912,9 @@ dialogHelper.OnResize = function ($elem) {
             return;
 
         if (!CurrentGrid.GetDataItemCountOnPage()) {
-            if (CurrentGlobal.GetViewMode() != "Grid") return;
-            $(visibleElems).hide();
+            if (CurrentGlobal.GetViewMode() !== "Grid") return;
+            if (!CurrentGlobal.cpLinkTable)
+                $(visibleElems).hide();
             dialogHelper.ShowDefaultCommands($(this), false, CurrentGlobal.GetViewMode() !== 'Tree');
         }
     });
@@ -2044,7 +2104,8 @@ function OnWorkButtonClick(s,e) {
                     ReferenceData: {
                         ReferenceId: data.referenceId
                     },
-                    ClassId: data.classId,rootGuid: data.objectGuid,
+                    ClassId: data.classId,
+                    rootObjectId: data.objectGuid,
                     macroButton: true
                 });
             }

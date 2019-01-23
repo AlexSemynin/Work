@@ -59,7 +59,7 @@ function showReplain(can) {
     }
 }
 function RefreshDesktop(panel) {
-    var panel = eval(panel);
+    panel = eval(panel);
     panel.PerformCallback();
 }
 function SetPercents(ctrl, id) {
@@ -172,8 +172,8 @@ function ReadMessage(control, id)
         var tree = eval(tree_id);
         var key = grid.GetSelectedKeysOnPage()[0];
         var panel = parent.attr("id");
-        if (id != null) key = id;
-        ax.post('/Mail/OpenItem', { GlobalId: key, IsMail: grid.cpWinType === 'Mail', panel: panel }, function(data) {
+        if (id !== null) key = id;
+        ax.post('/Mail/OpenItem', { globalId: key, isMail: grid.cpWinType === 'Mail', panel: panel }, function(data) {
             AddDialog(data.Text);
             tree.PerformDataCallback();
             InitPopupMenuHandler(dxAttachmentPopup);

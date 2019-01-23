@@ -204,20 +204,10 @@ function CreateMailItem(ctrl, IsMail) {
     var treepanel = parent.find('.Main-panel:first').attr("id");
     var gridname = CurrentGrid.name;
     var panel = parent.attr("id");
-    if(ctrl.children('span').text() == "Создать задание"){
-            ax.post(ax.links.createMail, { IsMail: IsMail, panel: panel }, function (data) {
-                AddDialog(data.Text,'CreatMailItemParametrTASK');
-            })
-        }else{
-            ax.post(ax.links.createMail, { IsMail: IsMail, panel: panel }, function (data) {
-                //  $('#MainPage').append(data.Text);
-                AddDialog(data.Text,'CreatMailItemParametr');
-            })
-    }
-    // ax.post(ax.links.createMail, { IsMail: IsMail, panel: panel }, function (data) {
-    //     //  $('#MainPage').append(data.Text);
-    //     AddDialog(data.Text, 'CreatMailItemParametr');
-    // })
+    ax.post(ax.links.createMail, { IsMail: IsMail, panel: panel }, function (data) {
+        //  $('#MainPage').append(data.Text);
+        AddDialog(data.Text);
+    })
 }
 
 function DownloadThisFile(ctrl) {
@@ -296,43 +286,12 @@ function RefreshPanel(RefId, ObjId, ParentId, control, justDo) {
         eval(panel.attr('id')).OnPanelStateReady(data, pane);
     });
 }
-// function AddDialog(content) {
-//     var container = $("<div class='DynamicDialogContainer'></div>");
-//     container.append(content);
-//     $('#DialogMainContainer').append(container);
-// }
-function AddDialog(content, parametr) { //
-        var container = $("<div class='DynamicDialogContainer'></div>"),
-        p;
-        switch(parametr){
-            case 'PagePropertyParametr':
-                container.addClass("SettingsWindowPageProperty");
-                break;
-            case 'CreatMailItemParametr':
-                container.addClass("SettingsWindowCreatMailItem");
-                break;
-            case 'CreatMailItemParametrTASK':
-                container.addClass("SettingsWindowCreatMailItemTASK");
-                break;
-            case 'ObjectLink':
-                container.addClass("ObjectLink"); 
-                break;
-            default:
-        } 
-        container.append(content);
-        $('#DialogMainContainer').append(container);  
-        if(container.hasClass('SettingsWindowPageProperty') || container.hasClass('SettingsWindowCreatMailItem') || container.hasClass('SettingsWindowCreatMailItemTASK')){
-            p = $('.DynamicDialogContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
-            heightWindowSetting(p);
-        }
-    }
-     function heightWindowSetting(obj){
-             var p = $(obj);
-             if (p.length){
-                 p.find(".dxpc-contentWrapper").addClass('StyleClassHeight1');
-                 p.find(".dxpc-content.TestPopupclass").children().addClass('StyleClassHeight2');
-             }
-         }
+function AddDialog(content) {
+    var container = $("<div class='DynamicDialogContainer'></div>");
+    container.append(content);
+    $('#DialogMainContainer').append(container);
+}
+
 function SendMessage(ctrl, editor, send, panel) {
     InitilizeGrid(ctrl);
     var parent = ctrl.parents('.mail').first();
@@ -629,6 +588,7 @@ function RemoveLink(ctrl, id) {
 }
 
 function GetCreationForm(ctrl, ClassId, RefId, Source, Guid, SourceId, filter) {
+
     Source = typeof Source == "undefined" ? null : Source;
     var ReferenceData = { ReferenceId: RefId }, changeState = typeof (this.changeState) != 'undefined',
         guid = Guid || null, RootObjectId = SourceId || null;
@@ -649,12 +609,27 @@ function GetCreationForm(ctrl, ClassId, RefId, Source, Guid, SourceId, filter) {
     $('.alt-menu').fadeOut('fast');
     if (CurrentTree && CurrentTree.cpStructureMode)
         ReferenceData.ReferenceId = parseInt(RefId);
+
+    if (CurrentGlobal.GetViewMode() == "Tree" && !ctrl.isASPxClientButton)
+    {
+        // В режиме дерево, если выбран объект другого класса, показываем форму выбора класса
+
+        var sourceClassId = ctrl.parent().data('formclass');
+        var selectedId = parseInt(CurrentGlobal.GetSelectedKey());
+        var structure = JSON.parse(CurrentTree.cpClassStructure).filter(function (item) { return item.id == sourceClassId; });
+        if (!structure.length || structure[0].children.indexOf(selectedId) == -1)
+            return ShowClassMenu(RefId, ctrl);
+        else
+            RootObjectId = selectedId;
+    }
+
+
     ax.post(ax.links.creationForm, {
         ReferenceData: ReferenceData,
         ClassId: ClassId,
         source: Source,
         rootGuid: guid,
-        RootObjectId: RootObjectId,
+        rootObjectId: RootObjectId,
         filter: filter
     }, function (result) {
         if (ctrl && ctrl.isASPxClientButton)
@@ -674,7 +649,7 @@ function ShowClassMenu(id, ctrl, guid, RootObjectId) {
         Guid = ctrl.parents('.ToManyLinkedTable').data('guid');
 
     ax.post("/Commands/GetClassSelection", {
-        ReferenceId: id, Guid: Guid, RootObjectId: Root
+        ReferenceId: id, Guid: Guid, RootObjectId: Root, parentId: CurrentGlobal.GetSelectedKey()
     }, function (data) {
         //$('#ChooseClassContainer').empty()
         //$('#ChooseClassContainer').html(data.Text);
@@ -780,11 +755,18 @@ function hexc(colorval) {
     return '#' + parts.join('');
 }
 
+
 function ChangeObjectLink(data, control) {//LinkGuid, ctrl, ToOne, RootRefId, RootObjId) {
     var dx = control.mainElement ? true : false
     var inner = dx ? $(control.mainElement) : control;
     if (!dx) {
         data = control.parents().first().data('value');
+    }
+    if (!data)
+    {
+        data = JSON.parse(control.cpData);
+        ChangingControl = control;
+        return ChangeUserControl(inner, data.ReferenceGuid);
     }
     ChangingControl = inner;
     IsLinkToOne = data.toOne;
@@ -801,7 +783,7 @@ function ChangeObjectLink(data, control) {//LinkGuid, ctrl, ToOne, RootRefId, Ro
     inner.parents('.InvisibleContainer:first').addClass('waitCursor');
     ax.post(ax.links.changeObjectLink, { viewModel: data },
         function (result) {
-            AddDialog(result.Text, 'ObjectLink'); $('.waitCursor').removeClass('waitCursor');
+            AddDialog(result.Text); $('.waitCursor').removeClass('waitCursor');
         }, function () { $('.waitCursor').removeClass('waitCursor'); });
 }
 
@@ -838,10 +820,11 @@ function GetCurrentKey(control) {
 
 function NewReferenceWindow(ctrl, TableName) {
     InitilizeGrid(ctrl);
-    if (CurrentKey == null)
+    var key = CurrentGlobal.GetSelectedKey();
+    if (key == null || key == "0")
         alert(_localMessages.noOneObject);
     else {
-        window.open('/' + TableName + '/?RootId=' + CurrentKey)
+        window.open('/' + TableName + '/?RootId=' + key)
     }
 }
 
@@ -1901,7 +1884,7 @@ function PageProperty(id, tree, tab) {
     var forTree = tree || CurrentGlobal.GetViewMode() === "Tree";
     if (CurrentTree && CurrentTree.cpGanttTree) { forTree = tab = true; }
     ax.post("/DisplayView/GetViewSettings/", { forTree: forTree, columnsTab: tab }, function (data) {
-        AddDialog(data.Text,'PagePropertyParametr');
+        AddDialog(data.Text);
     });
 }
 
@@ -2133,11 +2116,12 @@ var mailService = {
         }
     },
     notify: function (info) {
-        var $elem = $("<div></div>", { 'id': 'new_mail_notifier', 'data-id': info.globalId, 'data-mail': info.isMail }),
+        var $elem = $("<div></div>", { 'id': 'new_mail_notifier', 'data-id': info.globalId, 'data-mail': info.isMail, 'data-folderid': info.folderId}),
             $inner = $("<div></div>", { 'id': 'new_mail_notify_info' });
         $elem.prepend('<i>закрыть</i>'); //%TODO
         $inner.append('<img src=' + info.iconUrl + ' /><span>' + info.to + '</span>')
         $inner.append('<span>' + info.subject + '</span>');
+        $inner.append("<div style='text-align:center'><button>Открыть сообщение</button></div>");
         $elem.append($inner);
         if ($('#new_mail_notifier').length)
             return;
@@ -2765,4 +2749,32 @@ structureHelper.setLinkedObject = function (s, e) {
         CloseDialog(ctrl);
         tree.PerformCallback();
     });
+}
+
+//TODO убрать лишние $
+function ExpandClassMenu(ctrl, isClassBag) {
+    var parent = ctrl.parents('.CommandButton-Line-Container').first();
+    var bag = parent.find('.alt-menu:first');
+    InitilizeGrid(ctrl);
+    if (isClassBag && CurrentGlobal.UseTreeState()) {
+        var selectedId = parseInt(CurrentGlobal.GetSelectedKey());
+        var structure = JSON.parse(CurrentTree.cpClassStructure).filter(function (item) {
+            if (item.children.indexOf(selectedId) != -1)
+                return item;
+        }).map(function (a) { return a.id });
+        bag.find('.CreationClass-Bag-Item').each(function () {
+            var id = parseInt($(this).data('id'));
+            if (structure.indexOf(id) != -1)
+                $(this).show();
+            else
+                $(this).hide();;
+        });
+    }
+
+    bag.fadeToggle('fast');
+    Allocate(ctrl.parents('.CommandButton-Line-Container').first());
+}
+function Allocate(ctrl) {
+    if (!$('.ChangeViewBag:first').is(':visible') || !$('.alt-menu:first').is(':visible')) ctrl.addClass("Selected-Command");
+    else { ctrl.removeClass("Selected-Command"); }
 }

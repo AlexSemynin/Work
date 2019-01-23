@@ -245,7 +245,7 @@ $document.arrive('._table_container', function () {
         var parent = $(this).parents('.TestPopupclass').first();
         mailPoint = parent.find('.attachments-container:first');
         ax.post(ax.links.anyReferenceLink, { IsMailAttachment: true, IsMailElement: false }, function (data) {
-            AddDialog(data.Text, 'uplObjParametr');
+            AddDialog(data.Text);
         });
     });
     $document.on('click', '.upload_el', function () {
@@ -253,7 +253,7 @@ $document.arrive('._table_container', function () {
         var parent = $(this).parents('.mail').first();
         mailPoint = parent.find('.attachments-container:first');
         ax.post(ax.links.anyReferenceLink, { IsMailAttachment: true, IsMailElement: true }, function (data) {
-            AddDialog(data.Text, 'uploadElParametr');
+            AddDialog(data.Text);
         });
     });
 
@@ -878,20 +878,19 @@ $document.on('click', '.m_diag_footer ._ok', function () {
     if ($(this).attr('onclick'))
         return false;
 
-    var parent = $(this).parents('.m_diag').find('table:first'),
-        controls = $.makeArray(parent.find('tr').map(function () {
-            var valueControl =  $(this).find('.m_text'),
-                result =
-                {
-                    Name: $(this).find('td:eq(0)').text(),
-                    ObjectValue : valueHelper.GetData(valueControl),
-                    ControlType : valueControl.data('type')
-                }
+    var controls = eval(inputDialogControls).map(function (item) {
+        if (item.GetValue) {
+            var value = item.GetValue();
+            var type = item.cpEditorType || (item.cpData ? 'ReferenceObject' : 'Undefined');
+            var result = { ControlType: type, ObjectValue: { Value: value, Text: value } };
+            result.Name = $(item.mainElement).parents('.input_dialog_Value_cell').first().prev().text().trim();
+            if (type == 'ReferenceObject')
+                result.ObjectValue.Guid = JSON.parse(item.cpData).ReferenceGuid;
             return result;
-        }));
-    var dialog = { Name: "", Controls: controls };
-    ax.post(ax.links.setMacroValue, { guid: null, value: null, obj: dialog }, function (response) {
-    });
+        }
+    }).filter(function (el) { return el != null && typeof(el) != 'undefined'});
+
+    ax.post(ax.links.setMacroValue, { guid: null, value: null, obj: { Name: "", Controls: controls } }, function (response) { });
     $(this).parents('.Test2Class').first().find('.CloseDialogButton').trigger('click');
 });
 
@@ -1038,10 +1037,7 @@ $document.on('click', "._page_int", function () {
 
 $document.on('click', '.reset_button', function () {
     var node = AllReferencesTree.GetSelectedNode();
-    ax.post('/DisplayView/ResetReferenceSettings', { context: node.name }, function(){
-        alert("Настройки успешно сброшены!");
-        location.href = '/';
-    });
+    ax.post('/DisplayView/ResetReferenceSettings', { context: node.name });
 });
 $document.on('change', '.pagesize_setter', function () {
     var val = $(this).val(), grid = eval($(this).data('grid')),
@@ -1218,11 +1214,11 @@ $document.on('click', '._drop_c_menu', function (e) {
         self = $(this);
     $(this).find('ul:first').fadeToggle();
 
-    // if (CurrentGrid && !CurrentGrid.GetDataItemCountOnPage()) {
-    //     $(this).find('li').hide();
-    //     dialogHelper.ShowDefaultCommands($(this),true);
-    //     return;
-    // }
+    if (CurrentGrid && !CurrentGrid.GetDataItemCountOnPage()) {
+        $(this).find('li').hide();
+        dialogHelper.ShowDefaultCommands($(this),true);
+        return;
+    }
 
     $(this).find(comClass).show();
     $(this).find('li').show();
@@ -1516,9 +1512,9 @@ $document.on('click', '.TreeListButton', function () { InitilizeGrid($(this)) })
 $document.on('click', '#new_mail_notifier i', function () {
     $('#new_mail_notifier').remove();
 });
-$document.on('click', '#new_mail_notifier span+span', function () {
+$document.on('click', '#new_mail_notifier button', function () {
     var point = $('#new_mail_notifier');
-    ax.post('/Mail/OpenItem', { GlobalId: point.data('id'), IsMail: point.data('mail') }, function (data) {
+    ax.post('/Mail/OpenItem', { globalId: point.data('id'), isMail: point.data('mail'), folderId: point.data('folderid') }, function (data) {
         $('#new_mail_notifier').remove();
         AddDialog(data.Text);
         InitPopupMenuHandler(dxAttachmentPopup); 
@@ -1591,19 +1587,11 @@ $document.on("dblclick", ".dx_row_focused[data-id='0'], .tree_cell_row[data-id='
     InitilizeGrid($(this));
     CurrentTree.OnHeaderClick(e.target.parentNode);
 });
-// $(document).arrive('#pcViewSettings_T1', function () {
-//     var p = $(this).parents('.Test2Class');
-//     if (p.length) {
-//         p.find(".dxpc-contentWrapper").addClass('StyleClassHeight1');
-//         p.find(".TestPopupclass").children().addClass('StyleClassHeight2');
-//         p.find("#VisibleColumns_D").attr("style", "height: 380px; overflow: hidden auto;")
-//     }
-// });
-$document.on('click', '.SettingsWindowPageProperty #pcViewSettings_T1T', function(){
-    $('.SettingsWindowPageProperty').addClass('StyleClassWidth1');
-    $('.SettingsWindowPageProperty').removeClass('StyleClassWidth2');
-})
-$document.on('click', '.SettingsWindowPageProperty #pcViewSettings_T0T', function(){
-    $('.SettingsWindowPageProperty').addClass('StyleClassWidth2');
-    $('.SettingsWindowPageProperty').removeClass('StyleClassWidth1');
-})
+$(document).arrive('#pcViewSettings_T1', function () {
+    var p = $(this).parents('.Test2Class');
+    if (p.length) {
+        p.find(".dxpc-contentWrapper").addClass('StyleClassHeight1');
+        p.find(".TestPopupclass").children().addClass('StyleClassHeight2');
+        p.find("#VisibleColumns_D").attr("style", "height: 380px; overflow: hidden auto;")
+    }
+});
