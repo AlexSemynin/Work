@@ -1037,7 +1037,9 @@ $document.on('click', "._page_int", function () {
 
 $document.on('click', '.reset_button', function () {
     var node = AllReferencesTree.GetSelectedNode();
-    ax.post('/DisplayView/ResetReferenceSettings', { context: node.name });
+    ax.post('/DisplayView/ResetReferenceSettings', { context: node.name }, function(){
+        alert("Настройки успешно изменены!");
+    });
 });
 $document.on('change', '.pagesize_setter', function () {
     var val = $(this).val(), grid = eval($(this).data('grid')),
