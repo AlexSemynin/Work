@@ -11312,3 +11312,6 @@ display:none;
 .AdaptiveWrapper.mobile_screen .property_container_btns {
     float: none;
 }
+.DynamicDialogContainer .ObjectParameters .dxrpHeader_Moderno.dx_round_header.dxrp-headerClickable.dx-borderBox{
+    pointer-events: all;
+}
