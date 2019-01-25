@@ -815,7 +815,7 @@ function ChangeObjectLink(data, control) {//LinkGuid, ctrl, ToOne, RootRefId, Ro
     inner.parents('.InvisibleContainer:first').addClass('waitCursor');
     ax.post(ax.links.changeObjectLink, { viewModel: data },
         function (result) {
-            AddDialog(result.Text); $('.waitCursor').removeClass('waitCursor');
+            AddDialog(result.Text, 'ObjectLink'); $('.waitCursor').removeClass('waitCursor');
         }, function () { $('.waitCursor').removeClass('waitCursor'); });
 }
 
