@@ -9652,7 +9652,13 @@ background-image: url(../Images/refresh.ico);
     width:100%;
 } ._filter_mode_grid{
 
-} ._filter_mode_grid ._grid_filters_option{
+}
+@media(max-width: 406px){
+    .filter_option_panel ._tree_filters_option, .filter_option_panel ._grid_filters_option{
+        width: 49%;
+    }
+}
+ ._filter_mode_grid ._grid_filters_option{
      width:100%;
 } ._filter_mode_grid ._tree_filters_option{
      display: none;
