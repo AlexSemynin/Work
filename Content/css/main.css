@@ -11315,3 +11315,49 @@ display:none;
 .DynamicDialogContainer .ObjectParameters .dxrpHeader_Moderno.dx_round_header.dxrp-headerClickable.dx-borderBox{
     pointer-events: all;
 }
+
+@media(max-width: 900px){
+    .DynamicDialogContainer.ObjectLink .dxpclW{
+        position: absolute;
+        top: 50% !important;
+        left: 50% !important;
+        margin-right: -50%;
+        transform: translate(-50%, -50%); 
+    }
+    .ObjectLink .Test2Class{
+        width: 98vw;
+    } 
+    .ObjectLink .TestPopupclass>*{
+        min-width: 0 !important;
+    } 
+    .ObjectLink .right-side-splitter.jqx-widget-content.jqx-splitter-panel.jqx-reset{
+        overflow-x: scroll;
+    }
+    .ObjectLink .dxgvControl_Moderno.Grid-Control-Class2.Working_Grid.dxgv, 
+    .ObjectLink .dxgvHSDC,
+    .ObjectLink .dxgvHSDC>*,
+    .ObjectLink .dxAC,
+    .ObjectLink .dxgvPagerBottomPanel_Moderno.gridview_footer,
+    .ObjectLink .grid-control,.ObjectLink .horizontal-split{
+        width: 868.8px;
+    }
+    .ObjectLink .dxgvPagerBottomPanel_Moderno.gridview_footer .dxpLite_Moderno{
+        min-width: 868.8px !important;
+    }
+    .bjectLink .dxgvHSDC{
+        padding-right: 0px !important;
+    }
+    .ObjectLink .left-side-splitter.jqx-widget-content.jqx-splitter-panel.jqx-reset{
+        overflow-x: scroll;
+    }
+}
+@media(max-height: 445px){
+    .ObjectLink .TestPopupclass>div:nth-child(1) {
+        min-height: 250px !important;
+        height: calc(100vh - 42px) !important;
+    } 
+}
+.ObjectLink .right-side-splitter .grid-control{
+    position: relative;
+    top: 22px;                                               /*Это лучше исправить в беке*/
+}
