@@ -286,11 +286,43 @@ function RefreshPanel(RefId, ObjId, ParentId, control, justDo) {
         eval(panel.attr('id')).OnPanelStateReady(data, pane);
     });
 }
-function AddDialog(content) {
-    var container = $("<div class='DynamicDialogContainer'></div>");
-    container.append(content);
-    $('#DialogMainContainer').append(container);
-}
+// function AddDialog(content) {
+//     var container = $("<div class='DynamicDialogContainer'></div>");
+//     container.append(content);
+//     $('#DialogMainContainer').append(container);
+// }
+function AddDialog(content, parametr) { //
+        var container = $("<div class='DynamicDialogContainer'></div>"),
+        p;
+        switch(parametr){
+            case 'PagePropertyParametr':
+                container.addClass("SettingsWindowPageProperty");
+                break;
+            case 'CreatMailItemParametr':
+                container.addClass("SettingsWindowCreatMailItem");
+                break;
+            case 'CreatMailItemParametrTASK':
+                container.addClass("SettingsWindowCreatMailItemTASK");
+                break;
+            case 'ObjectLink':
+                container.addClass("ObjectLink"); 
+                break;
+            default:
+        } 
+        container.append(content);
+        $('#DialogMainContainer').append(container);  
+        if(container.hasClass('SettingsWindowPageProperty') || container.hasClass('SettingsWindowCreatMailItem') || container.hasClass('SettingsWindowCreatMailItemTASK')){
+            p = $('.DynamicDialogContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
+            heightWindowSetting(p);
+        }
+    }
+     // function heightWindowSetting(obj){
+     //         var p = $(obj);
+     //         if (p.length){
+     //             p.find(".dxpc-contentWrapper").addClass('StyleClassHeight1');
+     //             p.find(".dxpc-content.TestPopupclass").children().addClass('StyleClassHeight2');
+     //         }
+     //     }
 
 function SendMessage(ctrl, editor, send, panel) {
     InitilizeGrid(ctrl);
