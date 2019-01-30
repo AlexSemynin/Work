@@ -11368,22 +11368,6 @@ display:none;
     top: 22px;                                          
 }
 
-
-
-
-/*.GroupAndUsersClass .TestPopupclass>div:nth-child(1){
-    min-height: 0px;/*81vh !important;
-} 
-.GroupAndUsersClass #AddLinkDialogTree{
-    height: 71vh !important;
-}
-
-.GroupAndUsersClass #AddLinkDialogTree .dxtlCSD.dxTouchNativeScrollHandle{
-    height: 66vh !important; /*Размер окна для скроллинга
-}*/
-
-
-
 .GroupAndUsersClass .dxpclW{
     position: absolute;
     top: 50% !important;
@@ -11407,4 +11391,15 @@ display:none;
 .GroupAndUsersClass .TestPopupclass .dx_popup_btns_div{        /*для кнопок*/
     bottom: 5px;                
     margin-right: 20px;
+}
+
+
+
+
+.AdaptiveWrapper.mobile_screen .GroupAndUsersClass #AddLinkDialogTree .dxtlCSD{
+    height: calc(60vh - 34px) !important;
+    width:99.5%;
+}
+.AdaptiveWrapper.mobile_screen .GroupAndUsersClass .dxAC.repaired-height.ie-height{
+    width:99% !important;
 }
