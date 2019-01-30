@@ -11374,15 +11374,20 @@ display:none;
     left: 50% !important;
     margin-right: -50%;
     transform: translate(-50%, -50%); 
+    width: 98vw !important;
+    max-width: 900px; 
 }
 .GroupAndUsersClass #AddLinkDialogTree .dxtlCSD.repaired-height.ie-height{
     height: 68vh !important; 
+    /*max-height: 400px;*/
 }
 .GroupAndUsersClass #AddLinkDialogTree{
     height: 60vh !important; 
+   /* max-height: 450px;*/
 }
 .GroupAndUsersClass .TestPopupclass>div:nth-child(1){
     min-height: 0px !important;
+    min-width: 0px !important;
 } 
 .GroupAndUsersClass #AddLinkDialogTree_U>.dxtlHSDC{
     height: 34px !important;
@@ -11394,12 +11399,9 @@ display:none;
 }
 
 
-
-
 .AdaptiveWrapper.mobile_screen .GroupAndUsersClass #AddLinkDialogTree .dxtlCSD{
-    height: calc(60vh - 34px) !important;
-    width:99.5%;
+    height: calc(60vh - 37px) !important;
 }
 .AdaptiveWrapper.mobile_screen .GroupAndUsersClass .dxAC.repaired-height.ie-height{
-    width:99% !important;
+    width: 97% !important;    
 }
