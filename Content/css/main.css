@@ -11365,5 +11365,46 @@ display:none;
 }
 .ObjectLink .right-side-splitter .grid-control{
     position: relative;
-    top: 22px;                                               /*Это лучше исправить в беке*/
+    top: 22px;                                          
+}
+
+
+
+
+/*.GroupAndUsersClass .TestPopupclass>div:nth-child(1){
+    min-height: 0px;/*81vh !important;
+} 
+.GroupAndUsersClass #AddLinkDialogTree{
+    height: 71vh !important;
+}
+
+.GroupAndUsersClass #AddLinkDialogTree .dxtlCSD.dxTouchNativeScrollHandle{
+    height: 66vh !important; /*Размер окна для скроллинга
+}*/
+
+
+
+.GroupAndUsersClass .dxpclW{
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    margin-right: -50%;
+    transform: translate(-50%, -50%); 
+}
+.GroupAndUsersClass #AddLinkDialogTree .dxtlCSD.repaired-height.ie-height{
+    height: 68vh !important; 
+}
+.GroupAndUsersClass #AddLinkDialogTree{
+    height: 60vh !important; 
+}
+.GroupAndUsersClass .TestPopupclass>div:nth-child(1){
+    min-height: 0px !important;
+} 
+.GroupAndUsersClass #AddLinkDialogTree_U>.dxtlHSDC{
+    height: 34px !important;
+}
+
+.GroupAndUsersClass .TestPopupclass .dx_popup_btns_div{        /*для кнопок*/
+    bottom: 5px;                
+    margin-right: 20px;
 }

@@ -304,6 +304,9 @@ function AddDialog(content, parametr) { //
             case 'CreatMailItemParametrTASK':
                 container.addClass("SettingsWindowCreatMailItemTASK");
                 break;
+            case 'GroupAndUsers':
+                container.addClass("GroupAndUsersClass");
+                break;
             case 'ObjectLink':
                 container.addClass("ObjectLink"); 
                 break;
@@ -603,9 +606,13 @@ var dialogModel = function (ObjectId, ReferenceId, parent, isLinked) {
 
 function AddLink(ctrl, id) {
     InitilizeGrid(ctrl);
-    ax.post(ax.links.addLink, { ReferenceId: id }, function (data) {
-        AddDialog(data.Text);
-    });
+    if(id == 1){
+        ax.post(ax.links.addLink, { ReferenceId: id }, function (data) {AddDialog(data.Text, 'GroupAndUsers');});
+    }else{
+        ax.post(ax.links.addLink, { ReferenceId: id }, function (data) {
+            AddDialog(data.Text);
+        });
+    }
 }
 
 function RemoveLink(ctrl, id) {
