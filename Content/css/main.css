@@ -11405,3 +11405,6 @@ display:none;
 .AdaptiveWrapper.mobile_screen .GroupAndUsersClass .dxAC.repaired-height.ie-height{
     width: 97% !important;    
 }
+.drop_catalog input[type="text"]::selection{
+    background: none;
+}
