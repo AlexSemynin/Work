@@ -11023,9 +11023,9 @@ height:22px;
     } .events_loader .spinner + div{
 
 } .GroupContainer .loader, .tab_div_content .loader {
-    left: 50%;
+    left: calc(50% - 1.5em);
     position: absolute;
-    top: 50%;
+    top: calc(50% + 1.5em);
 } #alternative_menu li img {
     /*height: 28px;
     width: 28px;*/
