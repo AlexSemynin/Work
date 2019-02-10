@@ -11408,3 +11408,11 @@ display:none;
 .drop_catalog input[type="text"]::selection{
     background: none;
 }
+#MainPage #content .loader{
+    position: absolute;
+    top: 15%;
+    left: 8%;
+}
+.mobile_screen #MainPage #content .loader{
+    left: calc(50% - 1.5em);  
+}
