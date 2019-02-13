@@ -2293,8 +2293,10 @@ function PopOutProperties(ctrl, table) {
         var data = CurrentGlobal.GetReferenceData();
         url += '&relation=' + data.RelationGuid + '&masterId=' + data.MasterObjectId;
     }
+    var width = 500; 
+    var height = 300;
     window.open(url, table + CurrentKey.toString(),
-        'toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,width=500,height=300');
+        'toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,width=' + width + ',height=' + height + ',left=' + ((window.innerWidth - width)/2) + ',top=' + ((window.innerHeight - height)/2));
 }
 
 // Контейнер для работы с настройками вида в куках
