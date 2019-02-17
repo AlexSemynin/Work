@@ -11321,7 +11321,6 @@ display:none;
 .DynamicDialogContainer .ObjectParameters .dxrpHeader_Moderno.dx_round_header.dxrp-headerClickable.dx-borderBox{
     pointer-events: all;
 }
-
 @media(max-width: 900px){
     .DynamicDialogContainer.ObjectLink .dxpclW{
         position: absolute;
@@ -11363,9 +11362,8 @@ display:none;
         height: calc(100vh - 42px) !important;
     } 
 }
-.ObjectLink .right-side-splitter .grid-control{
-    position: relative;
-    top: 22px;                                          
+.ObjectLink .dxpcLite_Moderno.dxpclW .TestPopupclass>div:nth-child(1) {
+    padding-bottom: 46px !important;                                         /*ДЛя кнопки*/
 }
 
 .GroupAndUsersClass .dxpclW{
