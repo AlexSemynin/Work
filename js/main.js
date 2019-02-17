@@ -310,6 +310,9 @@ function AddDialog(content, parametr) { //
             case 'ObjectLink':
                 container.addClass("ObjectLink"); 
                 break;
+            case "ToManyСonnection":
+                container.addClass("ToManyConnectionClass");
+                break;
             default:
         } 
         container.append(content);
@@ -438,7 +441,7 @@ var buildDialog = function (data) {
                 AddDialog(data.Data.content);
                 break;
             case ("Variables"):
-                AddDialog(data.Data.content);
+                AddDialog(data.Data.content, "ToManyСonnection");
                 break;
         }
     }

@@ -11416,3 +11416,24 @@ display:none;
 .mobile_screen #MainPage #content .loader{
     left: calc(50% - 1.5em);  
 }
+
+
+.AdaptiveWrapper .ToManyConnectionClass .treelist-control .dxtlHSDC .dxtlCSD{
+    width: 100% !important;
+    height: 30px !important;
+} 
+.AdaptiveWrapper .ToManyConnectionClass ._file_folders .treelist-control .dxAC{
+    padding-bottom: 6px;
+}
+.ToManyConnectionClass .dxpc-footerContent{
+    min-height: 0px !important;
+    padding: 0px 24px 0px 12px !important;
+    height: 0px !important;
+}
+.ToManyConnectionClass .m_diag_footer{
+    position: relative;
+    bottom: 8px;
+}
+/*.mobile_screen .ToManyConnectionClass .dxAC .dxtlCSD{
+    height: calc(100vh - 200px);
+}*/
