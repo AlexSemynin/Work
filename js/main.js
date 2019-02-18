@@ -1310,23 +1310,10 @@ function PropPanel(id, ctrl, position) {
             container.empty().hide();
             break;
         case 'down':
-            splitterPosition = 'horizontal';
-            var item = panel.find('.opt-item:eq(1)');
-            item.addClass('checkedItem');
-            if (!right.find('.properties-panel').length)
-                right.append("<div class='properties-panel'></div>");
-            right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'horizontal', panels: [{ size: "50%" }, { size: "50%" }] });
-            afterResizeHelper.onAfterResize(true);
+            SwitchPosition(right, panel, afterResizeHelper, 'horisontal', 'eq(1)');
             break;
         case 'right':
-            splitterPosition = 'vertical';
-            var item = panel.find('.opt-item:eq(2)');
-            item.addClass('checkedItem');
-            if (!right.find('.properties-panel').length)
-                right.append("<div class='properties-panel'></div>");
-
-            right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'vertical', panels: [{ size: "50%" }, { size: "50%" }] });
-            afterResizeHelper.onAfterResize();
+            SwitchPosition(right, panel, afterResizeHelper, 'vertical', 'eq(2)');
             break;
     }
 
@@ -1345,6 +1332,15 @@ function PropPanel(id, ctrl, position) {
         }, function (data) {
             if (!CurrentGlobal) InitilizeGrid(container);
             CurrentGlobal.OnPanelStateReady(data, container);
+            switch(position){
+                case 'down':
+                    right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'horizontal', panels: [{ size: "50%" }, { size: "50%" }] });
+                     afterResizeHelper.onAfterResize(true);
+                    break;
+                case 'right':
+                    right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'vertical', panels: [{ size: "50%" }, { size: "50%" }] });
+                    afterResizeHelper.onAfterResize();
+            }
             container.remove('.loaded_pane');
 
         });
@@ -1352,6 +1348,16 @@ function PropPanel(id, ctrl, position) {
 
     container.show();
     initGrid();
+}
+
+function SwitchPosition( right, panel, afterResizeHelper, position, selectionNumberElement){
+    //splitterPosition = position;  //'horizontal';
+    var item = panel.find('.opt-item:' + selectionNumberElement);  //eq(1)
+    item.addClass('checkedItem');
+    if (!right.find('.properties-panel').length)
+        right.append("<div class='properties-panel'></div>");
+    // right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: position, panels: [{ size: "50%" }, { size: "50%" }] }); //'horizontal'
+    // afterResizeHelper.onAfterResize(true);
 }
 
 function ShowPropSelection(ctrl, id) {
@@ -2296,8 +2302,8 @@ function PopOutProperties(ctrl, table) {
         var data = CurrentGlobal.GetReferenceData();
         url += '&relation=' + data.RelationGuid + '&masterId=' + data.MasterObjectId;
     }
-    var width = 500, 
-    height = 300;
+    var width = 800, 
+    height = 600;
     window.open(url, table + CurrentKey.toString(),
         'toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,width=' + width + ',height=' + height + ',left=' + ((window.innerWidth - width)/2) + ',top=' + ((window.innerHeight - height)/2));
 }
