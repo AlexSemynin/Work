@@ -1298,54 +1298,31 @@ function PropPanel(id, ctrl, position) {
                 trigger && $(window).trigger('resize');
             };
         })();
-    switch (position) {
-        case 'none':
-            splitterPosition = 'none';
-            var item = panel.find('.opt-item:eq(0)');
-            item.addClass('checkedItem');
-            if (tree)
-                left.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
-            else
-                right.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
-            container.empty().hide();
-            break;
-        case 'down':
-            SwitchPosition(right, panel, afterResizeHelper, 'horisontal', 'eq(1)');
-            break;
-        case 'right':
-            SwitchPosition(right, panel, afterResizeHelper, 'vertical', 'eq(2)');
-            break;
-    }
 
     if (id) {
-        var id = typeof CurrentGlobal == 'undefined' ? null : CurrentGlobal.GetSelectedKey();
-        if (!tree && !CurrentGrid.GetVisibleRowsOnPage()) // не загружаем данные в панель при пустом списке
-            id = -1;
-        container.append(_loader);
-        ax.post(ax.links.panelDialog, {
+        let data = {
             showIndicator: false,
             ReferenceId: id || null,
             objectId: id,
             position: position,
             saveInCache: saveInCache,
             popupChild: !!container.parents('.DynamicDialogContainer').length
-        }, function (data) {
-            if (!CurrentGlobal) InitilizeGrid(container);
-            CurrentGlobal.OnPanelStateReady(data, container);
-            switch(position){
-                case 'down':
-                    right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'horizontal', panels: [{ size: "50%" }, { size: "50%" }] });
-                     afterResizeHelper.onAfterResize(true);
-                    break;
-                case 'right':
-                    right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'vertical', panels: [{ size: "50%" }, { size: "50%" }] });
-                    afterResizeHelper.onAfterResize();
-            }
-            container.remove('.loaded_pane');
+        };
 
-        });
-    }
+        var id = typeof CurrentGlobal == 'undefined' ? null : CurrentGlobal.GetSelectedKey();
+        if (!tree && !CurrentGrid.GetVisibleRowsOnPage()) // не загружаем данные в панель при пустом списке
+            id = -1;
+        right.append(_loader);
 
+        $.ajax({
+            type: 'POST',
+            url: ax.links.panelDialog,
+            data: data,
+            success: function(data){
+                if (!CurrentGlobal) InitilizeGrid(container);
+                CurrentGlobal.OnPanelStateReady(data, container);
+                container.remove('.loaded_pane');
+            });
     container.show();
     initGrid();
 }
