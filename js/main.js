@@ -1300,7 +1300,7 @@ function PropPanel(id, ctrl, position) {
         })();
 
     if (id) {
-        let data = {
+        var postData = {
             showIndicator: false,
             ReferenceId: id || null,
             objectId: id,
@@ -1312,29 +1312,65 @@ function PropPanel(id, ctrl, position) {
         var id = typeof CurrentGlobal == 'undefined' ? null : CurrentGlobal.GetSelectedKey();
         if (!tree && !CurrentGrid.GetVisibleRowsOnPage()) // не загружаем данные в панель при пустом списке
             id = -1;
-        right.append(_loader);
+            right.append(_loader);
+            CheckedPosition(splitterPosition, afterResizeHelper); 
+            $.post(ax.links.panelDialog, postData, function(data){
 
-        $.ajax({
-            type: 'POST',
-            url: ax.links.panelDialog,
-            data: data,
-            success: function(data){
+                MyResize(splitterPosition, afterResizeHelper);
+
                 if (!CurrentGlobal) InitilizeGrid(container);
                 CurrentGlobal.OnPanelStateReady(data, container);
-                container.remove('.loaded_pane');
-            });
+                right.remove('.loaded_pane');
+            })
+        // $.ajax({
+        //     type: 'POST',
+        //     url: ax.links.panelDialog,
+        //     data: postData,
+        //     beforeSend: function(){
+        //         right.append(_loader);
+        //         CheckedPosition(splitterPosition, afterResizeHelper); 
+        //     },
+        //     success: function(data){
+        //         MyResize(splitterPosition, afterResizeHelper);
+        //         if (!CurrentGlobal) InitilizeGrid(container);
+        //         CurrentGlobal.OnPanelStateReady(data, container);
+        //         right.remove('.loaded_pane');
+        //     }
+        // });
+    }
     container.show();
     initGrid();
 }
-
-function SwitchPosition( right, panel, afterResizeHelper, position, selectionNumberElement){
-    //splitterPosition = position;  //'horizontal';
-    var item = panel.find('.opt-item:' + selectionNumberElement);  //eq(1)
-    item.addClass('checkedItem');
-    if (!right.find('.properties-panel').length)
-        right.append("<div class='properties-panel'></div>");
-    // right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: position, panels: [{ size: "50%" }, { size: "50%" }] }); //'horizontal'
-    // afterResizeHelper.onAfterResize(true);
+function CheckedPosition(position, panel, right, splitterPosition){
+    switch (position) {
+        case 'none':
+            splitterPosition = 'none';
+            var item = panel.find('.opt-item:eq(0)');
+            item.addClass('checkedItem');
+            break;
+        case 'down':
+            splitterPosition = 'horizontal';
+            var item = panel.find('.opt-item:eq(1)');
+            item.addClass('checkedItem');
+            if (!right.find('.properties-panel').length)
+                right.append("<div class='properties-panel'></div>");
+            break;
+        case 'right':
+            splitterPosition = 'vertical';
+            var item = panel.find('.opt-item:eq(2)');
+            item.addClass('checkedItem');
+            if (!right.find('.properties-panel').length)
+                right.append("<div class='properties-panel'></div>");
+            break;
+    }
+}
+function MyResize(splitterPosition, afterResizeHelper){
+    right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: splitterPosition, panels: [{ size: "50%" }, { size: "50%" }] });
+    if(splitterPosition == 'horizontal'){
+        afterResizeHelper.onAfterResize(true);
+    }else{
+        afterResizeHelper.onAfterResize();
+    }
 }
 
 function ShowPropSelection(ctrl, id) {
