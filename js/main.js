@@ -1300,22 +1300,19 @@ function PropPanel(id, ctrl, position) {
     switch (position) {
         case 'none':
             splitterPosition = MarkAndAddPropertyPanel(position, 'eq(0)', panel, right);
-            // $('.horizontal-split:first').append(_loader);
             break;
         case 'down':
             splitterPosition = MarkAndAddPropertyPanel(position, 'eq(1)', panel, right);
-            // container.append(_loader);
             break;
         case 'right':
             splitterPosition = MarkAndAddPropertyPanel(position, 'eq(2)', panel, right);
-            // container.append(_loader);
             break;
     }
     if (id) {
         var id = typeof CurrentGlobal == 'undefined' ? null : CurrentGlobal.GetSelectedKey();
         if (!tree && !CurrentGrid.GetVisibleRowsOnPage()) // не загружаем данные в панель при пустом списке
             id = -1;
-        container.append(_loader);    /////////////////////////////////////q
+        container.append(_loader);  
         ax.post(ax.links.panelDialog, {
             showIndicator: false,
             ReferenceId: id || null,
@@ -1330,7 +1327,6 @@ function PropPanel(id, ctrl, position) {
             container.remove('.loaded_pane');
         });
     }
-    // $('.horizontal-split:first').remove('.loaded_pane'); //убирает колесо при скрытии
     container.show();
     initGrid();
 }
@@ -1358,6 +1354,7 @@ function BlockSeparation(splitterPosition, tree, right, left, afterResizeHelper,
         else
             right.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
         container.empty().hide();
+        container.removeClass('jqx-widget-content jqx-splitter-panel jqx-reset');
     }
 }
 
