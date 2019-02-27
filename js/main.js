@@ -1273,41 +1273,20 @@ function PropPanel(id, ctrl, position) {
         })();
     switch (position) {
         case 'none':
-            splitterPosition = 'none';
-            var item = panel.find('.opt-item:eq(0)');
-            item.addClass('checkedItem');
-            if (tree)
-                left.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
-            else
-                right.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
-            container.empty().hide();
+            splitterPosition = MarkAndAddPropertyPanel(position, 'eq(0)', panel, right);
             break;
         case 'down':
-            splitterPosition = 'horizontal';
-            var item = panel.find('.opt-item:eq(1)');
-            item.addClass('checkedItem');
-            if (!right.find('.properties-panel').length)
-                right.append("<div class='properties-panel'></div>");
-            right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'horizontal', panels: [{ size: "50%" }, { size: "50%" }] });
-            afterResizeHelper.onAfterResize(true);
+            splitterPosition = MarkAndAddPropertyPanel(position, 'eq(1)', panel, right);
             break;
         case 'right':
-            splitterPosition = 'vertical';
-            var item = panel.find('.opt-item:eq(2)');
-            item.addClass('checkedItem');
-            if (!right.find('.properties-panel').length)
-                right.append("<div class='properties-panel'></div>");
-
-            right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'vertical', panels: [{ size: "50%" }, { size: "50%" }] });
-            afterResizeHelper.onAfterResize();
+            splitterPosition = MarkAndAddPropertyPanel(position, 'eq(2)', panel, right);
             break;
     }
-
     if (id) {
         var id = typeof CurrentGlobal == 'undefined' ? null : CurrentGlobal.GetSelectedKey();
         if (!tree && !CurrentGrid.GetVisibleRowsOnPage()) // не загружаем данные в панель при пустом списке
             id = -1;
-        container.append(_loader);
+        container.append(_loader);  
         ax.post(ax.links.panelDialog, {
             showIndicator: false,
             ReferenceId: id || null,
@@ -1316,15 +1295,41 @@ function PropPanel(id, ctrl, position) {
             saveInCache: saveInCache,
             popupChild: !!container.parents('.DynamicDialogContainer').length
         }, function (data) {
+            BlockSeparation(splitterPosition, tree, right, left, afterResizeHelper,container);
             if (!CurrentGlobal) InitilizeGrid(container);
             CurrentGlobal.OnPanelStateReady(data, container);
             container.remove('.loaded_pane');
-
         });
     }
-
     container.show();
     initGrid();
+}
+
+function MarkAndAddPropertyPanel(position, elementSelector, panel, right){
+    let splitterPosition;
+    if(position != 'none'){
+        if (!right.find('.properties-panel').length)
+            right.append("<div class='properties-panel'></div>");
+        position == 'down' ? splitterPosition = 'horizontal' : splitterPosition = 'vertical';
+    }else{ 
+        splitterPosition = 'none';
+    }
+    var item = panel.find('.opt-item:' + elementSelector);
+    item.addClass('checkedItem');
+    return splitterPosition;
+}
+function BlockSeparation(splitterPosition, tree, right, left, afterResizeHelper,container){
+    if(splitterPosition != 'none'){
+        right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: splitterPosition , panels: [{ size: "50%" }, { size: "50%" }] });
+        splitterPosition == 'horizontal' ? afterResizeHelper.onAfterResize(true) : afterResizeHelper.onAfterResize();
+    }else{
+        if (tree)
+            left.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
+        else
+            right.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
+        container.empty().hide();
+        container.removeClass('jqx-widget-content jqx-splitter-panel jqx-reset');
+    }
 }
 
 function ShowPropSelection(ctrl, id) {
