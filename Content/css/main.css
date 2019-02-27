@@ -3508,17 +3508,19 @@ p { padding: 10px; }
     left: -6px;
     cursor: pointer;
     top: 2px;
-    background-image: url(/DXR.axd?r=0_4230-ruIeg);
     background-repeat: no-repeat;
     background-color: transparent;
     display: block;
     height: 16px;
     width: 16px;
     /* visibility: visible; */
-    background-position: -51px -40px;
+ 
     border: 0;
     box-sizing: initial;
-    background-position: 0px -393px;
+    background-image: url(/DXR.axd?r=0_4345-VqLgi);
+    /* background-repeat: no-repeat; */
+    /* background-color: transparent; */
+    background-position: -480px -24px;
 }
 .TreeListButton:active,.TreeListButton:focus{
     top:3px;
@@ -7583,8 +7585,8 @@ padding-bottom: 80px !important;*/
 } .Key-refer .dxgvHSDC + div {
    /*padding-bottom: 63px !important;
    padding-bottom: 62px !important;*/
-margin-top: -1px;
-border-top: 1px solid #a5acb5;
+/*margin-top: -1px;*/
+/*border-top: 1px solid #a5acb5;*/
 } .file-view .EditButtons{
     display:none;
 
@@ -7952,7 +7954,7 @@ cursor:initial !important;
     width: 0;
     filter: alpha(opacity=30);
     position: relative;
-    line-height: 40px;
+    line-height: 42px;
 
 } ._drop_c_menu .CommandButton-Line-Container .arrow{
     border-left: 4px solid transparent;
@@ -8092,8 +8094,12 @@ padding-top:2px;
     overflow: hidden;
 padding-bottom: 44px;
 width:100%;
-} .treelist-control > .jqx-splitter-panel{
-        overflow: hidden;
+}
+.AdaptiveWrapper .treelist-control .dxAC {
+    padding-bottom: 38px;
+}
+.treelist-control > .jqx-splitter-panel {
+    overflow: hidden;
 } .Desktopcontainer .jqx-splitter-panel .grid-control{
     padding-bottom: 4px !important;
 } .properties-panel .m-item{
@@ -9180,12 +9186,10 @@ box-shadow: 2px 3px 38px -18px rgba(0,0,0,0.75);
     padding-left:16px;
 } #menu li .submenu a {
     padding-left:0px
-} ._arrow_ {
+}
+._arrow_ {
     cursor: pointer;
-    background-image: url('/DXR.axd?r=0_4290-rCM1d');
     background-repeat: no-repeat;
-    background-color: transparent;
-    background-position: -2px -23px;
     width: 13px;
     height: 10px;
     width: 10px;
@@ -9193,15 +9197,17 @@ box-shadow: 2px 3px 38px -18px rgba(0,0,0,0.75);
     line-height: 10px;
     margin-right: 5px;
     transition: all 0.2s;
-    transform: rotate(-90deg);
-    background-image: url(/DXR.axd?r=0_4293-nJWng);
+    transform: rotate(0deg);
+
     /* background-repeat: no-repeat; */
     background-color: transparent;
-    background-position: 0px -108px;
-} .submenu > .sub_down ._arrow_{
-       transform: rotate(0deg);
+    background-image: url(/DXR.axd?r=0_4410-VqLgi);
+    background-position: -182px -24px;
+}
+.submenu > .sub_down ._arrow_ {
+    transform: rotate(90deg);
     transition: all 0.2s;
-       
+    background-position: -182px -27px;
 } .attachments-container i{
     float: none;
     background-image: url(/Content/Images/Mail/adr-close.png);
@@ -9652,13 +9658,7 @@ background-image: url(../Images/refresh.ico);
     width:100%;
 } ._filter_mode_grid{
 
-}
-@media(max-width: 523px/*406px*/){
-    .filter_option_panel ._tree_filters_option, .filter_option_panel ._grid_filters_option{
-        width: 49%;
-    }
-}
- ._filter_mode_grid ._grid_filters_option{
+} ._filter_mode_grid ._grid_filters_option{
      width:100%;
 } ._filter_mode_grid ._tree_filters_option{
      display: none;
@@ -9862,6 +9862,7 @@ padding-bottom: 26px;
 
 } .GroupContainer .wrap_iframe .loaded_pane{
     position:absolute;
+    border-top:none;
 
 } input[isclosed="True"], textarea[isclosed="True"]{
          pointer-events: none;
@@ -10085,12 +10086,18 @@ height: 22px;
         } .drop_catalog input[type="text"]::-moz-selection, .dx_dropdown_control input[type="text"], .dx_docs_date input[type="text"] {
             color: black;
             background: white;
-        } .Catalog-Manager .drop_catalog {
+        }
+          body:not(.AdaptiveWrapper) .Catalog-Manager .drop_catalog {
         width: 100%;
-        border: none;
+       
         font-size: 12px;
         /*border-bottom: 1px solid rgba(128, 128, 128, 0.24);*/
-    } .Catalog-Manager .drop_catalog input {
+    }
+
+body:not(.AdaptiveWrapper) .Catalog-Manager .drop_catalog {
+border:0;
+}
+    .Catalog-Manager .drop_catalog input {
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Chrome/Safari/Opera */
         -khtml-user-select: none; /* Konqueror */
@@ -10802,9 +10809,9 @@ height:inherit !important;
     max-height: 100% !important;
 } .ObjectParameters .Img-Parameter-Container{
     width:100%; border:none;
-} .ObjectParameters>tbody>tr.control_row:last-child >td:first-child{
+}
+.ObjectParameters > tbody > tr.control_row:last-child > td:first-child:not(.GroupColumn) {
     padding-top: 5px;
-
 } .msg-t-c .loaded_pane{
     position:relative;
     background:none;
@@ -11023,9 +11030,9 @@ height:22px;
     } .events_loader .spinner + div{
 
 } .GroupContainer .loader, .tab_div_content .loader {
-    left: calc(50% - 1.5em);
+    left: calc((50%) - 1.5em);
     position: absolute;
-    top: calc(50% + 1.5em);
+    top: calc((50%) + 1.5em);
 } #alternative_menu li img {
     /*height: 28px;
     width: 28px;*/
@@ -11292,146 +11299,172 @@ display:none;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-.AdaptiveWrapper.mobile_screen .vertComponentContainer .dx_view_tab #AllowFontColor,
-.AdaptiveWrapper.mobile_screen .vertComponentContainer .dx_view_tab #AllowFont,
-.AdaptiveWrapper.mobile_screen .vertComponentContainer .dx_view_tab #AllowBackground,
-.AdaptiveWrapper.mobile_screen .vertComponentContainer .dx_view_tab #BackgroundColor {
+} .AdaptiveWrapper.mobile_screen .vertComponentContainer .dx_view_tab #AllowFontColor, .AdaptiveWrapper.mobile_screen .vertComponentContainer .dx_view_tab #AllowFont, .AdaptiveWrapper.mobile_screen .vertComponentContainer .dx_view_tab #AllowBackground, .AdaptiveWrapper.mobile_screen .vertComponentContainer .dx_view_tab #BackgroundColor {
     display: inline-block;
     min-width: 120px;
-}
-.AdaptiveWrapper.mobile_screen .special_settings_table {
+} .AdaptiveWrapper.mobile_screen .special_settings_table {
     max-width: 300px;
-}
-.AdaptiveWrapper.mobile_screen #UseReloadControlTimer {
+} .AdaptiveWrapper.mobile_screen #UseReloadControlTimer {
     width: 160px;
     margin-right: 10px;
-}
-.AdaptiveWrapper.mobile_screen .vertComponentContainer{
+} .AdaptiveWrapper.mobile_screen .vertComponentContainer{
     width:min-content;
-}
-.property_container_btns {
+} .property_container_btns {
     float: right;
     margin-top: 5px;
     margin-bottom: 5px;
-}
-.AdaptiveWrapper.mobile_screen .property_container_btns {
+} .AdaptiveWrapper.mobile_screen .property_container_btns {
     float: none;
 }
-.DynamicDialogContainer .ObjectParameters .dxrpHeader_Moderno.dx_round_header.dxrp-headerClickable.dx-borderBox{
-    pointer-events: all;
-}
-@media(max-width: 900px){
-    .DynamicDialogContainer.ObjectLink .dxpclW{
+/* TODO ПЕРЕНЕСТИ В Adaptive */
+@media(max-width: 900px) { 
+    .DynamicDialogContainer.ObjectLink .dxpclW {
         position: absolute;
         top: 50% !important;
         left: 50% !important;
         margin-right: -50%;
-        transform: translate(-50%, -50%); 
+        transform: translate(-50%, -50%);
     }
-    .ObjectLink .Test2Class{
+
+    .ObjectLink .Test2Class {
         width: 98vw;
-    } 
-    .ObjectLink .TestPopupclass>*{
+    }
+
+    .ObjectLink .TestPopupclass > * {
         min-width: 0 !important;
-    } 
-    .ObjectLink .right-side-splitter.jqx-widget-content.jqx-splitter-panel.jqx-reset{
+    }
+
+    .ObjectLink .right-side-splitter.jqx-widget-content.jqx-splitter-panel.jqx-reset {
         overflow-x: scroll;
     }
-    .ObjectLink .dxgvControl_Moderno.Grid-Control-Class2.Working_Grid.dxgv, 
+
+    .ObjectLink .dxgvControl_Moderno.Grid-Control-Class2.Working_Grid.dxgv,
     .ObjectLink .dxgvHSDC,
-    .ObjectLink .dxgvHSDC>*,
+    .ObjectLink .dxgvHSDC > *,
     .ObjectLink .dxAC,
     .ObjectLink .dxgvPagerBottomPanel_Moderno.gridview_footer,
-    .ObjectLink .grid-control,.ObjectLink .horizontal-split{
+    .ObjectLink .grid-control, .ObjectLink .horizontal-split {
         width: 868.8px;
     }
-    .ObjectLink .dxgvPagerBottomPanel_Moderno.gridview_footer .dxpLite_Moderno{
-        min-width: 868.8px !important;
-    }
-    .bjectLink .dxgvHSDC{
+
+        .ObjectLink .dxgvPagerBottomPanel_Moderno.gridview_footer .dxpLite_Moderno {
+            min-width: 868.8px !important;
+        }
+
+    .bjectLink .dxgvHSDC {
         padding-right: 0px !important;
     }
-    .ObjectLink .left-side-splitter.jqx-widget-content.jqx-splitter-panel.jqx-reset{
+
+    .ObjectLink .left-side-splitter.jqx-widget-content.jqx-splitter-panel.jqx-reset {
         overflow-x: scroll;
     }
-}
-@media(max-height: 445px){
-    .ObjectLink .TestPopupclass>div:nth-child(1) {
+
+    .ObjectLink .right-side-splitter .grid-control {
+        position: relative;
+        top: 22px;
+    }
+} @media(max-height: 445px) {
+    .ObjectLink .TestPopupclass > div:nth-child(1) {
         min-height: 250px !important;
         height: calc(100vh - 42px) !important;
-    } 
-}
-.ObjectLink .dxpcLite_Moderno.dxpclW .TestPopupclass>div:nth-child(1) {
-    padding-bottom: 46px !important;                                         /*ДЛя кнопки*/
-}
-
-.GroupAndUsersClass .dxpclW{
+    }
+} @media(max-width: 523px /*406px*/ ) {
+    .filter_option_panel ._tree_filters_option, .filter_option_panel ._grid_filters_option {
+        width: 49%;
+    }
+} .DynamicDialogContainer .ObjectParameters .dx_round_header.dxrp-headerClickable.dx-borderBox {
+    pointer-events: all;
+} .input_dialog_wrapper {
+    height: calc((100%) - 38px);
+} .AdaptiveWrapper .input_dialog_wrapper {
+    height: calc((100%) - 38px);
+} .input_dialog_wrapper .dx_round_panel .dxrpcontent.dx-borderBox {
+    border-bottom: none;
+    border-left: 0;
+    border-right: 0;
+    background:none;
+} .input_dialog_wrapper .input_dialog_Value_cell{
+    min-width:150px;
+} .input_dialog_wrapper .dx_docs_area{
+    padding:5px;
+} .input_dialog_wrapper textarea {
+    padding: 0px;
+} .dx_round_panel #Group1_GBC > span {
+    border: 1px solid #80808052;
+} .AdaptiveWrapper #systemLinksMenu .dxm-item {
+    border: 0;
+} @media(max-height: 445px) {
+    .ObjectLink .TestPopupclass > div:nth-child(1) {
+        min-height: 250px !important;
+        height: calc(100vh - 42px) !important;
+    }
+} .ObjectLink .right-side-splitter .grid-control {
+    position: relative;
+    top: 22px;
+} .AddLinkWrapperContainer .dxpclW {
     position: absolute;
     top: 50% !important;
     left: 50% !important;
     margin-right: -50%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
     width: 98vw !important;
-    max-width: 900px; 
-}
-.GroupAndUsersClass #AddLinkDialogTree .dxtlCSD.repaired-height.ie-height{
-    height: 68vh !important; 
+    max-width: 900px;
+} .AddLinkWrapperContainer #AddLinkDialogTree .dxtlCSD.repaired-height.ie-height {
+    height: 68vh !important;
     /*max-height: 400px;*/
-}
-.GroupAndUsersClass #AddLinkDialogTree{
-    height: 60vh !important; 
-   /* max-height: 450px;*/
-}
-.GroupAndUsersClass .TestPopupclass>div:nth-child(1){
+} .AddLinkWrapperContainer #AddLinkDialogTree {
+    height: 60vh !important;
+    /* max-height: 450px;*/
+} .AddLinkWrapperContainer .TestPopupclass > div:nth-child(1) {
     min-height: 0px !important;
     min-width: 0px !important;
-} 
-.GroupAndUsersClass #AddLinkDialogTree_U>.dxtlHSDC{
+} .AddLinkWrapperContainer #AddLinkDialogTree_U > .dxtlHSDC {
     height: 34px !important;
-}
-
-.GroupAndUsersClass .TestPopupclass .dx_popup_btns_div{        /*для кнопок*/
-    bottom: 5px;                
+} .AddLinkWrapperContainer .TestPopupclass .dx_popup_btns_div { /*для кнопок*/
+    bottom: 5px;
     margin-right: 20px;
-}
-
-
-.AdaptiveWrapper.mobile_screen .GroupAndUsersClass #AddLinkDialogTree .dxtlCSD{
+} .AdaptiveWrapper.mobile_screen .AddLinkWrapperContainer #AddLinkDialogTree .dxtlCSD {
     height: calc(60vh - 37px) !important;
-}
-.AdaptiveWrapper.mobile_screen .GroupAndUsersClass .dxAC.repaired-height.ie-height{
-    width: 97% !important;    
-}
-.drop_catalog input[type="text"]::selection{
+} .AdaptiveWrapper.mobile_screen .AddLinkWrapperContainer .dxAC.repaired-height.ie-height {
+    width: 97% !important;
+} .drop_catalog input[type="text"]::selection {
     background: none;
-}
-#MainPage #content .loader{
+} #MainPage #content .loader {
     position: absolute;
     top: 15%;
     left: 8%;
+} .mobile_screen #MainPage #content .loader {
+    left: calc(50% - 1.5em);
 }
-.mobile_screen #MainPage #content .loader{
-    left: calc(50% - 1.5em);  
-}
-
-
-.AdaptiveWrapper .ToManyConnectionClass .treelist-control .dxtlHSDC .dxtlCSD{
-    width: 100% !important;
-    height: 30px !important;
-} 
-.AdaptiveWrapper .ToManyConnectionClass ._file_folders .treelist-control .dxAC{
-    padding-bottom: 6px;
-}
-.ToManyConnectionClass .dxpc-footerContent{
-    min-height: 0px !important;
-    padding: 0px 24px 0px 12px !important;
-    height: 0px !important;
-}
-.ToManyConnectionClass .m_diag_footer{
+.AdaptiveWrapper.mobile_screen .InvisibleContainer, 
+.AdaptiveWrapper.mobile_screen .GroupContainer,
+.AdaptiveWrapper.mobile_screen .GroupColumn .CustomTabTable,
+.AdaptiveWrapper.mobile_screen .TableContainerColumn {
+    min-height: 100% !important;
+    height: 100% !important;
     position: relative;
-    bottom: 8px;
 }
-/*.mobile_screen .ToManyConnectionClass .dxAC .dxtlCSD{
-    height: calc(100vh - 200px);
-}*/
+
+.AdaptiveWrapper.mobile_screen .DialogTable, .AdaptiveWrapper.mobile_screen .WebDialogContent {
+    min-height: 100% !important;
+    height: 100% !important;
+}
+
+.AdaptiveWrapper.mobile_screen .PagesHeader {
+    min-height: 30px;
+}
+
+.AdaptiveWrapper.mobile_screen .GroupContainer {
+    /*overflow:hidden !important;*/
+    overflow-y: scroll !important;
+}
+
+.AdaptiveWrapper.mobile_screen .tab_div_content {
+    min-height: 100% !important;
+    height: 100% !important;
+    position: relative;
+}
+
+.AdaptiveWrapper.mobile_screen .commands-control {
+    position: relative
+}

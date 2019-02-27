@@ -875,7 +875,7 @@ $document.on('click', '.list_class_item', function (e) {
 });
 
 $document.on('click', '.m_diag_footer ._ok', function () {
-    if ($(this).attr('onclick'))
+    if ($(this).attr('onclick') || typeof (inputDialogControls) == 'undefined')
         return false;
 
     var controls = eval(inputDialogControls).map(function (item) {
@@ -1037,7 +1037,7 @@ $document.on('click', "._page_int", function () {
 
 $document.on('click', '.reset_button', function () {
     var node = AllReferencesTree.GetSelectedNode();
-    ax.post('/DisplayView/ResetReferenceSettings', { context: node.name }, function(){
+    ax.post('/DisplayView/ResetReferenceSettings', { context: node.name }, function () {
         alert("Настройки успешно изменены!");
     });
 });
@@ -1282,7 +1282,35 @@ $document.on('click', '._import', function (e,init) {
     } 
 });
 
-$document.on('change', ':file:not(.dxTI)', function (e) {
+$document.on('change', ':file.fileOpenMacro', function (e) {
+    var files = this.files;
+
+   // var $input = $("#uploadimage");
+    var fd = new FormData;
+    for (var i = 0; i < files.length; i++) {
+        fd.append("postedFiles", files[i]);
+    }
+    var self = $(this);
+    //ax.post('/Commands/SetMacroValue', fd, function () {
+    //    CloseDialog(self);
+    //});
+    $.ajax({
+        url: '/Commands/SetMacroValue',
+        data: fd,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: function (data) {
+            CloseDialog(self);
+        }
+    });
+});
+
+$document.on('click', '.macroTrigger', function () {
+    $('#file-input').trigger('click');
+});
+
+$document.on('change', ':file:not(.dxTI,.fileOpenMacro)', function (e) {
     var point = $(this).next();
     window.xhr = new XMLHttpRequest();
     var data = new FormData();

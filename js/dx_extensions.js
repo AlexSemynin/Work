@@ -836,7 +836,7 @@ var buttonEditProto = {
 }
 
 var valueHelper = function (data, dxControl) {
-    this.data = data;
+    this.data = data || {};
     this.control = dxControl || null;
     this.dataString = JSON.stringify(this.data);
     this.isNative  = this.control.cpDescription != 'Variable';
@@ -1019,10 +1019,16 @@ function OnCallBackError(s, e) {
         s.ReadUserValue();
         if (!s.ShowSelection) {
             s.ShowSelection = function (referenceId) {
-                ax.post('/DialogChanges/GetTypeValueSelection/', {
+                var data = {
                     type: this.cpValueType, referenceId: referenceId || 0,
                     control: this.name, settings: this.cpChosingData
-                }, function (data) {
+                };
+
+                // Переназначаем корневой справочник для выбора
+                if (referenceId && CurrentGlobal && CurrentGlobal.GetReferenceData().ReferenceId != referenceId)
+                    data.ReferenceData = { ReferenceId: referenceId };
+
+                ax.post('/DialogChanges/GetTypeValueSelection/', data, function (data) {
                     AddDialog(data.Text);
                 });
             }.bind(s);
@@ -1032,7 +1038,7 @@ function OnCallBackError(s, e) {
                 var referenceSelected = !!(s.cpRefId);
                 if (!referenceSelected && s.cpChosingData) {
                     var data = typeof (s.cpChosingData) == 'string' ? JSON.parse(s.cpChosingData) : s.cpChosingData;
-                    referenceSelected = (!!data.ReferenceGuid && data.ReferenceGuid != '00000000-0000-0000-0000-000000000000');
+                    referenceSelected = (!!data.ReferenceGuid && data.ReferenceGuid != _emptyGuid);
                 }
                 if (referenceSelected)
                 {
@@ -1953,7 +1959,7 @@ Array.prototype.remove = function (value) {
 }
 
 dialogHelper.ShowDefaultCommands = function (p, drop, hideLinks) {
-    var _coms = ['._import', '._delete', '._create', '._addobject', '._remove_link', '._operations'];
+    var _coms = ['._import', '._delete', '._create', '._addobject', '._remove_link', '._operations', '._reports'];
     if (hideLinks) { _coms.remove('._delete'), _coms.remove('._remove_link')
 }
     for (var i = 0; i < _coms.length ; i++) {

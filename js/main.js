@@ -286,49 +286,33 @@ function RefreshPanel(RefId, ObjId, ParentId, control, justDo) {
         eval(panel.attr('id')).OnPanelStateReady(data, pane);
     });
 }
-// function AddDialog(content) {
-//     var container = $("<div class='DynamicDialogContainer'></div>");
-//     container.append(content);
-//     $('#DialogMainContainer').append(container);
-// }
-function AddDialog(content, parametr) { //
-        var container = $("<div class='DynamicDialogContainer'></div>"),
-        p;
-        switch(parametr){
-            case 'PagePropertyParametr':
-                container.addClass("SettingsWindowPageProperty");
-                break;
-            case 'CreatMailItemParametr':
-                container.addClass("SettingsWindowCreatMailItem");
-                break;
-            case 'CreatMailItemParametrTASK':
-                container.addClass("SettingsWindowCreatMailItemTASK");
-                break;
-            case 'GroupAndUsers':
-                container.addClass("GroupAndUsersClass");
-                break;
-            case 'ObjectLink':
-                container.addClass("ObjectLink"); 
-                break;
-            case "ToManyСonnection":
-                container.addClass("ToManyConnectionClass");
-                break;
-            default:
-        } 
-        container.append(content);
-        $('#DialogMainContainer').append(container);  
-        if(container.hasClass('SettingsWindowPageProperty') || container.hasClass('SettingsWindowCreatMailItem') || container.hasClass('SettingsWindowCreatMailItemTASK')){
-            p = $('.DynamicDialogContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
-            heightWindowSetting(p);
-        }
+function AddDialog(content, parameter) { //
+    var container = $("<div class='DynamicDialogContainer'></div>"), p;
+    switch (parameter) {
+        case 'PagePropertyParametr':
+            container.addClass("SettingsWindowPageProperty");
+            break;
+        case 'CreatMailItemParametr':
+            container.addClass("SettingsWindowCreatMailItem");
+            break;
+        case 'CreatMailItemParametrTASK':
+            container.addClass("SettingsWindowCreatMailItemTASK");
+            break;
+        case 'AddLinkWrapper':
+            container.addClass("AddLinkWrapperContainer");
+            break;
+        case 'ObjectLink':
+            container.addClass("ObjectLink");
+            break;
+        default:
     }
-     // function heightWindowSetting(obj){
-     //         var p = $(obj);
-     //         if (p.length){
-     //             p.find(".dxpc-contentWrapper").addClass('StyleClassHeight1');
-     //             p.find(".dxpc-content.TestPopupclass").children().addClass('StyleClassHeight2');
-     //         }
-     //     }
+    container.append(content);
+    $('#DialogMainContainer').append(container);
+    if (container.hasClass('SettingsWindowPageProperty') || container.hasClass('SettingsWindowCreatMailItem') || container.hasClass('SettingsWindowCreatMailItemTASK')) {
+        p = $('.DynamicDialogContainer').find('.dxpc-mainDiv.Test2Class.dxpc-shadow');
+        heightWindowSetting(p);
+    }
+}
 
 function SendMessage(ctrl, editor, send, panel) {
     InitilizeGrid(ctrl);
@@ -434,14 +418,8 @@ var buildDialog = function (data) {
                 ax.post(ax.links.setMacroValue, { value: person, obj: null }, function (response) {
                 });
                 break;
-            case ("InputDialog"):
+            default:
                 AddDialog(data.Data.content);
-                break;
-            case ("PropertiesDialog"):
-                AddDialog(data.Data.content);
-                break;
-            case ("Variables"):
-                AddDialog(data.Data.content, "ToManyСonnection");
                 break;
         }
     }
@@ -609,13 +587,9 @@ var dialogModel = function (ObjectId, ReferenceId, parent, isLinked) {
 
 function AddLink(ctrl, id) {
     InitilizeGrid(ctrl);
-    if(id == 1){
-        ax.post(ax.links.addLink, { ReferenceId: id }, function (data) {AddDialog(data.Text, 'GroupAndUsers');});
-    }else{
-        ax.post(ax.links.addLink, { ReferenceId: id }, function (data) {
-            AddDialog(data.Text);
-        });
-    }
+    ax.post(ax.links.addLink, { ReferenceId: id }, function (data) {
+        AddDialog(data.Text, id == 1 ? 'AddLinkWrapper' : null);
+    });
 }
 
 function RemoveLink(ctrl, id) {
@@ -817,8 +791,7 @@ function ChangeObjectLink(data, control) {//LinkGuid, ctrl, ToOne, RootRefId, Ro
     if (dx && control.cpUserControl) {
         IsLinkToOne = true;
         ax.post('/DialogChanges/GetAnyReferenceObject/', { controlName: control.name, filters: JSON.parse(control.cpChosingData || null) }, function (result) {
-            AddDialog(result.Text);
-            // $('.waitCursor').removeClass('waitCursor');
+             AddDialog(result.Text, 'ObjectLink'); $('.waitCursor').removeClass('waitCursor');
         });
         return;
     }
@@ -1037,8 +1010,8 @@ function UpdateClick(ctrl, RefId, IsDesktop, WindowType, tree) {
                 "name": item.texts[0].toString(),
                 "PathString": item.texts[1].toString()
             };
-            if (item.texts[1].indexOf("$UserColumnItem") != -1) {
-                colInfo.CalcType = item.texts[2];
+            if (item.texts[2].indexOf("$UserColumnItem") != -1) {
+                colInfo.CalcType = item.texts[1];
                 colInfo.StringData = item.value;
                 userCols.push(colInfo);
             }
@@ -1252,6 +1225,7 @@ function InitilizeGrid(ctrl) {
     // var Guid = null;
 
 }
+
 function PropPanel(id, ctrl, position) {
     InitilizeGrid(ctrl);
     if (ctrl.parents('._file_folders').length)
@@ -1299,20 +1273,41 @@ function PropPanel(id, ctrl, position) {
         })();
     switch (position) {
         case 'none':
-            splitterPosition = MarkAndAddPropertyPanel(position, 'eq(0)', panel, right);
+            splitterPosition = 'none';
+            var item = panel.find('.opt-item:eq(0)');
+            item.addClass('checkedItem');
+            if (tree)
+                left.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
+            else
+                right.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
+            container.empty().hide();
             break;
         case 'down':
-            splitterPosition = MarkAndAddPropertyPanel(position, 'eq(1)', panel, right);
+            splitterPosition = 'horizontal';
+            var item = panel.find('.opt-item:eq(1)');
+            item.addClass('checkedItem');
+            if (!right.find('.properties-panel').length)
+                right.append("<div class='properties-panel'></div>");
+            right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'horizontal', panels: [{ size: "50%" }, { size: "50%" }] });
+            afterResizeHelper.onAfterResize(true);
             break;
         case 'right':
-            splitterPosition = MarkAndAddPropertyPanel(position, 'eq(2)', panel, right);
+            splitterPosition = 'vertical';
+            var item = panel.find('.opt-item:eq(2)');
+            item.addClass('checkedItem');
+            if (!right.find('.properties-panel').length)
+                right.append("<div class='properties-panel'></div>");
+
+            right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: 'vertical', panels: [{ size: "50%" }, { size: "50%" }] });
+            afterResizeHelper.onAfterResize();
             break;
     }
+
     if (id) {
         var id = typeof CurrentGlobal == 'undefined' ? null : CurrentGlobal.GetSelectedKey();
         if (!tree && !CurrentGrid.GetVisibleRowsOnPage()) // не загружаем данные в панель при пустом списке
             id = -1;
-        container.append(_loader);  
+        container.append(_loader);
         ax.post(ax.links.panelDialog, {
             showIndicator: false,
             ReferenceId: id || null,
@@ -1321,41 +1316,15 @@ function PropPanel(id, ctrl, position) {
             saveInCache: saveInCache,
             popupChild: !!container.parents('.DynamicDialogContainer').length
         }, function (data) {
-            BlockSeparation(splitterPosition, tree, right, left, afterResizeHelper,container);
             if (!CurrentGlobal) InitilizeGrid(container);
             CurrentGlobal.OnPanelStateReady(data, container);
             container.remove('.loaded_pane');
+
         });
     }
+
     container.show();
     initGrid();
-}
-
-function MarkAndAddPropertyPanel(position, elementSelector, panel, right){
-    let splitterPosition;
-    if(position != 'none'){
-        if (!right.find('.properties-panel').length)
-            right.append("<div class='properties-panel'></div>");
-        position == 'down' ? splitterPosition = 'horizontal' : splitterPosition = 'vertical';
-    }else{ 
-        splitterPosition = 'none';
-    }
-    var item = panel.find('.opt-item:' + elementSelector);
-    item.addClass('checkedItem');
-    return splitterPosition;
-}
-function BlockSeparation(splitterPosition, tree, right, left, afterResizeHelper,container){
-    if(splitterPosition != 'none'){
-        right.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, orientation: splitterPosition , panels: [{ size: "50%" }, { size: "50%" }] });
-        splitterPosition == 'horizontal' ? afterResizeHelper.onAfterResize(true) : afterResizeHelper.onAfterResize();
-    }else{
-        if (tree)
-            left.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
-        else
-            right.jqxSplitter({ width: "100%", showSplitBar: false, height: "100%", orientation: 'horizontal', panels: [{ size: "100%" }] });
-        container.empty().hide();
-        container.removeClass('jqx-widget-content jqx-splitter-panel jqx-reset');
-    }
 }
 
 function ShowPropSelection(ctrl, id) {
@@ -1543,6 +1512,7 @@ function ChooseFolder(c) {
     target.attr('action', url);
     c.next().trigger('click');
     InitilizeGrid(target);
+    CloseDialog(c);
 }
 
 function InitDiag(ctrl) {
@@ -1923,7 +1893,7 @@ function CreateDisplayView() {
         },
         function () {
             ViewCreationDialog.Hide(); CurrentGlobal.PerformCallback();
-        })
+        });
 }
 
 function PageProperty(id, tree, tab) {
@@ -2300,10 +2270,8 @@ function PopOutProperties(ctrl, table) {
         var data = CurrentGlobal.GetReferenceData();
         url += '&relation=' + data.RelationGuid + '&masterId=' + data.MasterObjectId;
     }
-    var width = 800, 
-    height = 600;
     window.open(url, table + CurrentKey.toString(),
-        'toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,width=' + width + ',height=' + height + ',left=' + ((window.innerWidth - width)/2) + ',top=' + ((window.innerHeight - height)/2));
+        'toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,width=500,height=300');
 }
 
 // Контейнер для работы с настройками вида в куках
@@ -2410,13 +2378,14 @@ var columnsHelper = {
             name = (existed && column.texts[2] == 'UserColumnInfo') ? column.texts[0] : null
         ax.post('/DisplayView/GetCustomColumnForm/', { id: id, name: name }, function (data) {
             AddDialog(data.Text);
+            columnsHelper.currentGlobal = CurrentGlobal;
         });
     },
     SaveUserColumn: function (s, e) {
         var data = { Name: dx_name_input.GetValue() };
         ASPxClientRadioButton.GetControlCollection().ForEachControl(function (e) {
             if (e.isASPxClientRadioButton && e.cpType && e.GetChecked()) {
-                data.Type = e.cpType; var control = eval($($(e.mainElement).nextAll()[1]).attr('id'));
+                data.Type = e.cpType; var control = eval($($(e.mainElement).parent().next()[0].children[0]).attr('id'));// eval($($(e.mainElement).nextAll()[1]).attr('id'));
                 data.Context = control.cpValue || control.GetValue();
                 data.Text = control.GetText();
                 if (data.Type == "Macros") data.Context = JSON.stringify([data.Context, dx_methods_items.GetValue()]);
@@ -2825,4 +2794,37 @@ function ExpandClassMenu(ctrl, isClassBag) {
 function Allocate(ctrl) {
     if (!$('.ChangeViewBag:first').is(':visible') || !$('.alt-menu:first').is(':visible')) ctrl.addClass("Selected-Command");
     else { ctrl.removeClass("Selected-Command"); }
+}
+
+function GenerateReport(ctrl, reportId) {
+    $('.alt-menu').hide();
+    InitilizeGrid(ctrl);
+    var ids = CurrentGlobal.GetSelectedKeys();
+    var url = "?referenceId=" + CurrentGlobal.GetReferenceData().ReferenceId + "&ids=" + ids[0];
+    for (var i = 1; i < ids.length; i++) {
+        url = url + "&ids=" + ids[i];
+    };
+    url = '/Reports/GenerateReport' + url + '&reportId=' + reportId;
+
+    var _popupwindow = function (url, title, w, h) {
+        var left = (screen.width / 2) - (w / 2);
+        var top = (screen.height / 2) - (h / 2);
+        return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+    };
+        ModalLoadingPanel.SetText("Формирование отчёта: " + ctrl.attr('title'));
+        ModalLoadingPanel.Show();
+        $.ajax({
+            url: url,
+            success: function (data) {
+                ModalLoadingPanel.Hide();
+                data.url && _popupwindow(data.url, 'report', 800, 600);
+                data.error && ShowError(data.error);
+            },
+            error(e) {
+                console.log(e);
+                if (e.responseJSON && e.responseJSON.Redirect)
+                    OnCallBackError(null, { message: e.responseJSON });
+            },
+            dataType: 'json'
+        });
 }
