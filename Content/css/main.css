@@ -11468,3 +11468,32 @@ display:none;
 .AdaptiveWrapper.mobile_screen .commands-control {
     position: relative
 }
+
+
+
+
+
+/*.dxpcLite_Moderno.dxpclW .dxpc-mainDiv.Test2Class.dxpc-shadow{
+    width: inherit;
+}
+.dxpcLite_Moderno .Test2Class .dxpc-header.dx_header_custom.drag.dxpc-withBtn{
+    white-space: nowrap;
+    width: 92%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: s-resize;
+}
+.dxpcLite_Moderno .Test2Class .CloseDialogButton{
+    background-color: #f5f5f5;
+    width: 8%;
+    right: 0px;
+    margin-right: 0px;
+    height: 32.6px;
+    top: 2px;
+    border-radius: 0px;
+    border-bottom: 1px solid #e6e6e6;
+    max-width: 33px;
+}
+.dxpcLite_Moderno .Test2Class .CloseDialogButton:hover{
+    background-color: #ff5050;
+}*/
