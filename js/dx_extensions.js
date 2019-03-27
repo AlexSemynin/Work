@@ -1682,8 +1682,12 @@ function OnCallBackError(s, e) {
             }
         },
     data = $(this).data('init');
-        if (!data)
+        if (!data){
+            if(CurrentGrid.keys.length == 0){
+                $('.header-panel ._operations ._delete').hide();
+            }
             return false;
+        }
         init(data, data.g || {}, e);
         if (data.u) {
             var control = null; 
