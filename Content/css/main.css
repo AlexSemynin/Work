@@ -11477,6 +11477,9 @@ display:none;
     width: inherit;
     min-width: 200px;
 }
+.dxpc-mainDiv.Test2Class.dxpc-shadow.default_popup{
+    width: initial;    
+}
 .Test2Class .dxpc-header.dx_header_custom.drag.dxpc-withBtn{
     white-space: nowrap;
     width: calc(100% - 33px);
@@ -11494,7 +11497,7 @@ display:none;
     top: 2px;
     box-sizing: border-box;
     border-radius: 0px;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid #a8aab4; /*#e6e6e6;*/
     background-color: #f5f5f5;
 }
 .Test2Class .CloseDialogButton:hover{
