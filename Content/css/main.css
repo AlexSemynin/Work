@@ -11473,27 +11473,30 @@ display:none;
 
 
 
-/*.dxpcLite_Moderno.dxpclW .dxpc-mainDiv.Test2Class.dxpc-shadow{
+.dxpc-mainDiv.Test2Class.dxpc-shadow{
     width: inherit;
+    min-width: 200px;
 }
-.dxpcLite_Moderno .Test2Class .dxpc-header.dx_header_custom.drag.dxpc-withBtn{
+.Test2Class .dxpc-header.dx_header_custom.drag.dxpc-withBtn{
     white-space: nowrap;
-    width: 92%;
+    width: calc(100% - 33px);
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: s-resize;
 }
-.dxpcLite_Moderno .Test2Class .CloseDialogButton{
-    background-color: #f5f5f5;
-    width: 8%;
+.Test2Class .CloseDialogButton{
+    width: 33px;
+    min-height: inherit;
+    padding-top: inherit !important;
+    padding-bottom: inherit !important;
     right: 0px;
     margin-right: 0px;
-    height: 32.6px;
     top: 2px;
+    box-sizing: border-box;
     border-radius: 0px;
     border-bottom: 1px solid #e6e6e6;
-    max-width: 33px;
+    background-color: #f5f5f5;
 }
-.dxpcLite_Moderno .Test2Class .CloseDialogButton:hover{
+.Test2Class .CloseDialogButton:hover{
     background-color: #ff5050;
-}*/
+}
