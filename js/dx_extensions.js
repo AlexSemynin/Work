@@ -1271,8 +1271,13 @@ function OnCallBackError(s, e) {
             var p = eval(cbArgs.GlobalPanelName),
                 viewMode = p.GetViewMode();
             commandAction = s.HideCommand;
-            if (viewMode == "Explorer")
+            if (viewMode == "Explorer"){
                 p.Components().Tree.InitRowCommands(null,null, true);
+                var spl = $('.Splitter-Container:first');
+                $('body.mobile_screen #MainContainer .Splitter-Container').length ?  
+                    spl.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, panels: [{ size: "30%", min: 0 }, { min: 0, size: "70%" }] }) :
+                    null;
+            }
             if (viewMode !== "Tree")
                 $(p.mainElement).find('.InvisibleContainer').empty();
             else return;
