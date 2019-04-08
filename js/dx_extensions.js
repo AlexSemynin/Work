@@ -1690,7 +1690,7 @@ function OnCallBackError(s, e) {
         if (!data){
             if(CurrentGrid != null)
                 if(CurrentGrid.keys.length == 0)
-                    $('.header-panel ._operations ._delete').hide();
+                    $('.header-panel ._operations').hide();
             
             return false;
         }
