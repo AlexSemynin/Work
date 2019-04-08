@@ -1618,25 +1618,37 @@ $document.on("dblclick", ".dx_row_focused[data-id='0'], .tree_cell_row[data-id='
     CurrentTree.OnHeaderClick(e.target.parentNode);
 });
 
+// $(document).arrive('#pcViewSettings_TC', function () {
+//     let $p = $(this).parents('.Test2Class');
+//     let $contentWrap = $p.find(".dxpc-contentWrapper");
+//     let $childPopUp = $p.find(".TestPopupclass").children(); //фикс
+//     if ($p.length) {
+//         $contentWrap.addClass('settighs-height-par general-sett');
+//         $childPopUp.addClass('settighs-height-child general-sett');
+//     }
+//     let childLi = $(this).children('li.dxtc-tab');
+//     childLi.click(function(e){
+//         switch ($(e.currentTarget).attr('id')) {
+//             case 'pcViewSettings_T0':
+//                 //general-settings
+//                 $contentWrap.removeClass('columns-sett').addClass('general-sett');
+//                 break;
+//             case 'pcViewSettings_T1':
+//                 //columns-settings
+//                 $contentWrap.removeClass('general-sett').addClass('columns-sett');
+//                 break;
+//         }
+//     })
+// });
 $(document).arrive('#pcViewSettings_TC', function () {
     let $p = $(this).parents('.Test2Class');
     let $contentWrap = $p.find(".dxpc-contentWrapper");
-    let $childPopUp = $p.find(".TestPopupclass").children();
+    let $childPopUp = $p.find(".TestPopupclass").children(); //фикс высота.
+    let windHeight = window.innerHeight;
+    let fixHeight = (windHeight - 40).toString() + 'px';
     if ($p.length) {
-        $contentWrap.addClass('settighs-height-par general-sett');
-        $childPopUp.addClass('settighs-height-child general-sett');
+        $contentWrap.addClass('settighs-height-par');
+        $childPopUp.addClass('settighs-height-child');
     }
-    let childLi = $(this).children('li.dxtc-tab');
-    childLi.click(function(e){
-        switch ($(e.currentTarget).attr('id')) {
-            case 'pcViewSettings_T0':
-                //general-settings
-                $contentWrap.removeClass('columns-sett').addClass('general-sett');
-                break;
-            case 'pcViewSettings_T1':
-                //columns-settings
-                $contentWrap.removeClass('general-sett').addClass('columns-sett');
-                break;
-        }
-    })
+    $('.settighs-height-par').css('height', fixHeight)
 });

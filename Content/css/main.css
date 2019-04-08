@@ -11059,21 +11059,21 @@ height:22px;
     height: 100%;
     position: relative;
 } 
-@media(max-height: 620px){
-    .settighs-height-par.general-sett {
+ @media(max-height: 620px){
+    /* .settighs-height-par.general-sett {
         height: 355px;
-    }
-    .settighs-height-child {
+    } */
+    .settighs-height-child{
         overflow-y: scroll;
         height: 100%;
         position: relative;
     }
 }
-@media(max-height: 550px) {
+/* @media(max-height: 550px) {
     .settighs-height-par.columns-sett {
         height: 330px;
     }
-}
+}  */
  #AvailableParameters {
     height: 410px;
 } .makeGreyAndUnpush {
