@@ -1617,11 +1617,26 @@ $document.on("dblclick", ".dx_row_focused[data-id='0'], .tree_cell_row[data-id='
     InitilizeGrid($(this));
     CurrentTree.OnHeaderClick(e.target.parentNode);
 });
-$(document).arrive('#pcViewSettings_T1', function () {
-    var p = $(this).parents('.Test2Class');
-    if (p.length) {
-        p.find(".dxpc-contentWrapper").addClass('StyleClassHeight1');
-        p.find(".TestPopupclass").children().addClass('StyleClassHeight2');
-        p.find("#VisibleColumns_D").attr("style", "height: 380px; overflow: hidden auto;")
+
+$(document).arrive('#pcViewSettings_TC', function () {
+    let $p = $(this).parents('.Test2Class');
+    let $contentWrap = $p.find(".dxpc-contentWrapper");
+    let $childPopUp = $p.find(".TestPopupclass").children();
+    if ($p.length) {
+        $contentWrap.addClass('settighs-height-par general-sett');
+        $childPopUp.addClass('settighs-height-child general-sett');
     }
+    let childLi = $(this).children('li.dxtc-tab');
+    childLi.click(function(e){
+        switch ($(e.currentTarget).attr('id')) {
+            case 'pcViewSettings_T0':
+                //general-settings
+                $contentWrap.removeClass('columns-sett').addClass('general-sett');
+                break;
+            case 'pcViewSettings_T1':
+                //columns-settings
+                $contentWrap.removeClass('general-sett').addClass('columns-sett');
+                break;
+        }
+    })
 });

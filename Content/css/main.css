@@ -11058,17 +11058,23 @@ height:22px;
     overflow-y: scroll;
     height: 100%;
     position: relative;
-} @media(max-height: 510px) {
-    .StyleClassHeight1 {
-        height: 330px;
+} 
+@media(max-height: 620px){
+    .settighs-height-par.general-sett {
+        height: 355px;
     }
-
-    .StyleClassHeight2 {
+    .settighs-height-child {
         overflow-y: scroll;
         height: 100%;
         position: relative;
     }
-} #AvailableParameters {
+}
+@media(max-height: 550px) {
+    .settighs-height-par.columns-sett {
+        height: 330px;
+    }
+}
+ #AvailableParameters {
     height: 410px;
 } .makeGreyAndUnpush {
     pointer-events: none;
