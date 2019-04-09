@@ -1619,26 +1619,49 @@ $document.on("dblclick", ".dx_row_focused[data-id='0'], .tree_cell_row[data-id='
 });
 
 $(document).arrive('#pcViewSettings_TC', function () {
-    let $p = $(this).parents('.Test2Class');
-    let $contentWrap = $p.find(".dxpc-contentWrapper");
-    let $childPopUp = $p.find(".TestPopupclass").children(); //фикс
-    if ($p.length) {
+    let $parent = $(this).parents('.Test2Class').parent();
+    if($parent.length){
+        let $contentWrap = $parent.find(".dxpc-contentWrapper");
+        let $childPopUp = $parent.find(".TestPopupclass").children();
+        //$parent.addClass('WindowSettings'); //выключен в css, т.к. не перемещается с теми параметрами
         $contentWrap.addClass('settings-height-par general-sett');
         $childPopUp.addClass('settings-height-child general-sett');
+        let childLi = $(this).children('li.dxtc-tab');
+        childLi.click(function(e){
+            switch ($(e.currentTarget).attr('id')) {
+                case 'pcViewSettings_T0':
+                    //general-settings
+                    $contentWrap.removeClass('columns-sett').addClass('general-sett');
+                    $childPopUp.removeClass('columns-sett').addClass('general-sett');
+                    break;
+                case 'pcViewSettings_T1':
+                    //columns-settings
+                    $contentWrap.removeClass('general-sett').addClass('columns-sett');
+                    $childPopUp.removeClass('general-sett').addClass('columns-sett');
+                    break;
+            }
+        });
     }
-    let childLi = $(this).children('li.dxtc-tab');
-    childLi.click(function(e){
-        switch ($(e.currentTarget).attr('id')) {
-            case 'pcViewSettings_T0':
-                //general-settings
-                $contentWrap.removeClass('columns-sett').addClass('general-sett');
-                $childPopUp.removeClass('columns-sett').addClass('general-sett');
-                break;
-            case 'pcViewSettings_T1':
-                //columns-settings
-                $contentWrap.removeClass('general-sett').addClass('columns-sett');
-                $childPopUp.removeClass('general-sett').addClass('columns-sett');
-                break;
-        }
-    })
 });
+
+// let $contentWrap = $p.find(".dxpc-contentWrapper");
+//     let $childPopUp = $p.find(".TestPopupclass").children(); //фикс
+//     if ($p.length) {
+//         $contentWrap.addClass('settings-height-par general-sett');
+//         $childPopUp.addClass('settings-height-child general-sett');
+//     }
+//     let childLi = $(this).children('li.dxtc-tab');
+//     childLi.click(function(e){
+//         switch ($(e.currentTarget).attr('id')) {
+//             case 'pcViewSettings_T0':
+//                 //general-settings
+//                 $contentWrap.removeClass('columns-sett').addClass('general-sett');
+//                 $childPopUp.removeClass('columns-sett').addClass('general-sett');
+//                 break;
+//             case 'pcViewSettings_T1':
+//                 //columns-settings
+//                 $contentWrap.removeClass('general-sett').addClass('columns-sett');
+//                 $childPopUp.removeClass('general-sett').addClass('columns-sett');
+//                 break;
+//         }
+//     })
