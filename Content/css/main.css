@@ -11508,6 +11508,9 @@ display:none;
         height: 100%;
         position: relative;
     }
+    .AdaptiveWrapper.mobile_screen .property_container_btns {
+        float: right;
+    }
 }
 @media(max-height: 550px) {
     .settings-height-par.columns-sett {
@@ -11517,5 +11520,8 @@ display:none;
         overflow-y: scroll;
         height: 100%;
         position: relative;
+    }
+    .AdaptiveWrapper.mobile_screen .property_container_btns {
+        float: right;
     }
 } 
