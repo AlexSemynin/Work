@@ -11060,20 +11060,25 @@ height:22px;
     position: relative;
 } 
  @media(max-height: 620px){
-    /* .settighs-height-par.general-sett {
+    .settings-height-par.general-sett {
         height: 355px;
-    } */
-    .settighs-height-child{
+    }
+    .settings-height-child.general-sett{
         overflow-y: scroll;
         height: 100%;
         position: relative;
     }
 }
-/* @media(max-height: 550px) {
-    .settighs-height-par.columns-sett {
+@media(max-height: 550px) {
+    .settings-height-par.columns-sett {
         height: 330px;
     }
-}  */
+    .settings-height-child.columns-sett{
+        overflow-y: scroll;
+        height: 100%;
+        position: relative;
+    }
+} 
  #AvailableParameters {
     height: 410px;
 } .makeGreyAndUnpush {
