@@ -11058,17 +11058,9 @@ height:22px;
     overflow-y: scroll;
     height: 100%;
     position: relative;
-} @media(max-height: 510px) {
-    .StyleClassHeight1 {
-        height: 330px;
-    }
+} 
 
-    .StyleClassHeight2 {
-        overflow-y: scroll;
-        height: 100%;
-        position: relative;
-    }
-} #AvailableParameters {
+ #AvailableParameters {
     height: 410px;
 } .makeGreyAndUnpush {
     pointer-events: none;
@@ -11499,3 +11491,49 @@ display:none;
 .Test2Class .CloseDialogButton:hover{
     background-color: #ff5050;
 }
+@media(max-height: 667px){
+    .settings-height-par.general-sett {
+        height: calc(100vh - 60px);
+    }
+    .settings-height-child.general-sett{
+        overflow-y: scroll;
+        height: 100%;
+        position: relative;
+    }
+    .AdaptiveWrapper.mobile_screen .property_container_btns {
+        float: right;
+    }
+}
+@media(max-height: 550px) {
+    .settings-height-par.columns-sett {
+        height: calc(100vh - 60px);
+    }
+    .settings-height-child.columns-sett{
+        overflow-y: scroll;
+        height: 100%;
+        position: relative;
+    }
+} 
+/* 
+.settings-height-par.columns-sett{
+    max-height: 529px;
+    height: calc(100vh - 60px);
+}
+.settings-height-child.columns-sett{
+    overflow-y: auto;
+    height: 100% !important;
+    position: relative;
+}
+
+.settings-height-par.general-sett {
+    max-height: 641px; //575px
+    height: calc(100vh - 60px);
+}
+.settings-height-child.general-sett{
+    overflow-y: auto;
+    height: 100.25% !important;
+    position: relative;
+}
+.AdaptiveWrapper.mobile_screen .property_container_btns {
+    float: right;
+} */
