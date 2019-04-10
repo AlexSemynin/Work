@@ -183,7 +183,10 @@ var callBackPanelProto = {
             }
         }
         var settings = ((right == "0px" || right == "0%") && !this.cpWinType) ? [{ size: "100%", min: 0 }] : [{ size: left, min: 0 }, { min: 0, size: right }];
-        point.jqxSplitter({ width: "100%", height: "100%", showSplitBar: (left !== "0%" && !$('body').hasClass('mobile_screen')), panels: settings });
+        //var spl = $('.Splitter-Container:first');
+        $('body.mobile_screen #MainContainer .Splitter-Container').length ?  
+            point.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, panels: [{ size: "30%", min: 0 }, { min: 0, size: "70%" }] }) :
+            point.jqxSplitter({ width: "100%", height: "100%", showSplitBar: (left !== "0%" && !$('body').hasClass('mobile_screen')), panels: settings });
         initGrid();
        // $(window).trigger('resize');
         point.attr("style", "height:100%");
@@ -1273,10 +1276,6 @@ function OnCallBackError(s, e) {
             commandAction = s.HideCommand;
             if (viewMode == "Explorer"){
                 p.Components().Tree.InitRowCommands(null,null, true);
-                var spl = $('.Splitter-Container:first');
-                $('body.mobile_screen #MainContainer .Splitter-Container').length ?  
-                    spl.jqxSplitter({ width: "100%", height: "100%", showSplitBar: true, panels: [{ size: "30%", min: 0 }, { min: 0, size: "70%" }] }) :
-                    null;
             }
             if (viewMode !== "Tree")
                 $(p.mainElement).find('.InvisibleContainer').empty();
