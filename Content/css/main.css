@@ -11491,14 +11491,6 @@ display:none;
 .Test2Class .CloseDialogButton:hover{
     background-color: #ff5050;
 }
-
-/*Если вклчить этот код, то перемещаться не будет*/
-/* .WindowSettings{
-    top: 50% !important;
-    left: 50% !important;
-    margin-right: -50% !important;
-    transform: translate(-50%, -50%);
-} */
 @media(max-height: 667px){
     .settings-height-par.general-sett {
         height: calc(100vh - 60px);
@@ -11521,7 +11513,27 @@ display:none;
         height: 100%;
         position: relative;
     }
-    .AdaptiveWrapper.mobile_screen .property_container_btns {
-        float: right;
-    }
 } 
+/* 
+.settings-height-par.columns-sett{
+    max-height: 529px;
+    height: calc(100vh - 60px);
+}
+.settings-height-child.columns-sett{
+    overflow-y: auto;
+    height: 100% !important;
+    position: relative;
+}
+
+.settings-height-par.general-sett {
+    max-height: 641px; //575px
+    height: calc(100vh - 60px);
+}
+.settings-height-child.general-sett{
+    overflow-y: auto;
+    height: 100.25% !important;
+    position: relative;
+}
+.AdaptiveWrapper.mobile_screen .property_container_btns {
+    float: right;
+} */
