@@ -1311,8 +1311,13 @@ function OnCallBackError(s, e) {
 }
 
     function DesktopGridClick(winType, ObjId, Selected, grid, node) {
+        if(ObjId == null && winType == 'RecycleBin' && Selected){
+            (grid.GetSelectedRowCount()) ?
+                $('.recover_recycle, .delete_recycle').css("display", "inline-block") : 
+                $('.recover_recycle, .delete_recycle').css("display", "none");
+            return;
+        }
         if (!ObjId){
-            (winType == 'RecycleBin' &&  !grid.GetSelectedRowCount()) ? $('.recover_recycle, .delete_recycle').hide() : null;
             return;
         }    
         var point = $(grid.mainElement);
@@ -1331,8 +1336,8 @@ function OnCallBackError(s, e) {
                 unlock.css({ "display": ((typeof showUnlock !== "undefined") && !showUnlock) ? "inline-block" : "none" });
                 $('._tsk_create').css({ "display": "inline-block"});
                 grid.GetSelectedRowCount() ?
-                    $('.recover_recycle, .delete_recycle').show() :
-                    $('.recover_recycle, .delete_recycle').hide();
+                    $('.recover_recycle, .delete_recycle').css("display", "inline-block") :
+                    $('.recover_recycle, .delete_recycle').css("display", "none");
         }
         if (Selected && ObjId != null) {
             var pane = parent.find('.properties-panel:first'),
@@ -1340,8 +1345,8 @@ function OnCallBackError(s, e) {
             if (pane.is(':visible') && global.ShowPanel()) {
                 RefreshDesktopPanel(pane, ObjId, winType);
                 grid.onMessageReaded();
+            }
         }
-    }
 }
 
     function MailItemClick(grid, e) {
@@ -1868,7 +1873,7 @@ dialogHelper.OnResize = function ($elem) {
         var menu = $(this).find('._drop_c_menu');
         InitilizeGrid(menu);
         var selfWidth = $(this).width(),
-            visibleElems = $(this).find(".CommandButton-Line-Container:not([class*=' _contr'])");
+            visibleElems = $(this).find(".CommandButton-Line-Container:not([class*=' _contr']):visible");
         visibleElems.hide();
         var ul = $(this).find('#navigation-buttons');
         var ulOffset = ul.offset().left - 45;
