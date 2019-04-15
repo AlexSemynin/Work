@@ -1310,14 +1310,15 @@ function OnCallBackError(s, e) {
 }
 
     function DesktopGridClick(winType, ObjId, Selected, grid, node) {
-        if (!ObjId)
-                return;
-
-        if (!grid.GetSelectedRowCount().length && !Selected) 
-            $("._contr_read, ._mailItem_remove").hide();
-        else 
-            $("._contr_read, ._mailItem_remove").css({ "display": "inline-block" });
-    
+        if(ObjId == null && winType == 'RecycleBin' && Selected){
+            (grid.GetSelectedRowCount()) ?
+                $('.recover_recycle, .delete_recycle').css("display", "inline-block") : 
+                $('.recover_recycle, .delete_recycle').css("display", "none");
+            return;
+        }
+        if (!ObjId){
+            return;
+        }    
         var point = $(grid.mainElement);
         var parent = point.parents('.global-panel').first();
         var cc = parent.find('.CommandButton-Line-Container:eq(1)');
@@ -1329,20 +1330,22 @@ function OnCallBackError(s, e) {
             cc.css({ "display": "inline-block" });
             cc2.css({ "display": "inline-block" });
             $('._msg_create, ._tsk_create').css({ "display": "inline-block" });
-        }
-        else {
+        }else {
             var showUnlock = $(grid.GetRow(node.visibleIndex)).data('unlock');
                 unlock.css({ "display": ((typeof showUnlock !== "undefined") && !showUnlock) ? "inline-block" : "none" });
-                $('._tsk_create, .recover_recycle, .delete_recycle').css({ "display": "inline-block"});
-    }
+                $('._tsk_create').css({ "display": "inline-block"});
+                grid.GetSelectedRowCount() ?
+                    $('.recover_recycle, .delete_recycle').css("display", "inline-block") :
+                    $('.recover_recycle, .delete_recycle').css("display", "none");
+        }
         if (Selected && ObjId != null) {
             var pane = parent.find('.properties-panel:first'),
             global = eval(parent.attr("id"));
             if (pane.is(':visible') && global.ShowPanel()) {
                 RefreshDesktopPanel(pane, ObjId, winType);
                 grid.onMessageReaded();
+            }
         }
-    }
 }
 
     function MailItemClick(grid, e) {
@@ -1869,7 +1872,7 @@ dialogHelper.OnResize = function ($elem) {
         var menu = $(this).find('._drop_c_menu');
         InitilizeGrid(menu);
         var selfWidth = $(this).width(),
-            visibleElems = $(this).find(".CommandButton-Line-Container:not([class*=' _contr'])");
+            visibleElems = $(this).find(".CommandButton-Line-Container:not([class*=' _contr']):visible");
         visibleElems.hide();
         var ul = $(this).find('#navigation-buttons');
         var ulOffset = ul.offset().left - 45;
