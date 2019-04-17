@@ -4068,6 +4068,9 @@ padding-bottom: 24px !important;
 .right-side-splitter{
     height:100%;
 }
+.right-side-splitter.jqx-widget-content.jqx-splitter-panel.jqx-reset.jqx-splitter-panel-nested{
+    z-index: 1;
+}
 /* No CSS3 support */
 
 .no-opacity       wrapper-dropdown-4 .dropdown,
@@ -10432,7 +10435,9 @@ white-space: initial !important;
     border-color: #dedede;
     border-top-width: 1px;
     border-bottom-width: 1px;
-} .mail_dropdown_list{
+} .jqx-splitter-splitbar-vertical.jqx-fill-state-normal.my_splitter{
+    z-index: 1;
+}.mail_dropdown_list{
      display: none;
     position: absolute;
     background: white;
