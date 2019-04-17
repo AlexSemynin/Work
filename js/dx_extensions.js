@@ -1692,9 +1692,12 @@ function OnCallBackError(s, e) {
     data = $(this).data('init');
         if (!data){
             if(CurrentGrid != null)
-                if(CurrentGrid.keys.length == 0)
+                if(CurrentGrid.keys.length == 0){
                     $('.header-panel ._operations ._delete').hide();
-            
+                    CurrentGlobal.cpWinType == 'RecycleBin' ? 
+                    $('.commands-control .CommandButton-Line-Container.delete_recycle, .CommandButton-Line-Container.recover_recycle').hide() :
+                    null;
+                }   
             return false;
         }
         init(data, data.g || {}, e);
