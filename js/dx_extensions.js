@@ -736,7 +736,8 @@ var gridViewProto = {
         return this._scrollbarWidth;
     },
 
-    FixWidth: function (fixed, fixPopupElements) {
+    FixWidth: function (fixed, fixPopupElements, widthForBtn) {
+        widthForBtn = widthForBtn || 0;
         var self = $(this.mainElement),
         parent = self.parents('.grid-control').first(),
         parentWidth = parent.width();
@@ -753,7 +754,7 @@ var gridViewProto = {
         })(jQuery);
 
         headerDiv.css({ "width": (container.hasScrollBar() ? (parentWidth - this.getScrollbarWidth()) : parentWidth) + "px" });
-        container.css({ "width": parentWidth + "px" });
+        container.css({ "width": parentWidth  + "px" });
     }
 }
 
@@ -1117,6 +1118,11 @@ function OnCallBackError(s, e) {
             //    CurrentGlobal.HideCommand('_create');
             //else
             //    CurrentGlobal.ShowCommand('_create');
+            if( $('body').hasClass('mobile_screen') ){
+                $('.view-row.d_mode[data-mode="Grid"]').trigger('click');
+                //grid.FixWidth(null, null, 10);
+                
+            }
         }
 
         if (!CurrentGlobal.ShowPanel() || mode != "Tree") {
