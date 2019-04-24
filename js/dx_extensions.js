@@ -1120,6 +1120,8 @@ function OnCallBackError(s, e) {
             //    CurrentGlobal.ShowCommand('_create');
             if( $('body').hasClass('mobile_screen') ){
                 $('.view-row.d_mode[data-mode="Grid"]').trigger('click');
+                //$(CurrentGrid.mainElement).before('<div class="dxbButton_Moderno" id="swapRight"><img src="data:image/svg+xml;utf8;"></div>');
+                $(CurrentGrid.mainElement).before('<div><input type="button" value="Click"></div>');
                 //grid.FixWidth(null, null, 10);
                 
             }
