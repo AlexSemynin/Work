@@ -1636,3 +1636,37 @@ $(document).arrive('#pcViewSettings_TC', function () {
         }
     });
 });
+
+$(document).arrive('.return-Tree', function(){
+    let initialPoint;
+    let finalPoint;
+    this.addEventListener('touchstart', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        initialPoint=event.changedTouches[0];
+    }, false);
+    this.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        let currentPoint=event.changedTouches[0];
+        let xAbs = Math.abs(initialPoint.pageX - currentPoint.pageX);
+        $(this).css('left', xAbs+'px');
+    }, false);
+    this.addEventListener('touchend', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        finalPoint=event.changedTouches[0];
+        xAbs = Math.abs(initialPoint.pageX - finalPoint.pageX);
+        if(xAbs == 0){
+            $('.view-row.d_mode[data-mode="Tree"]').trigger('click');
+            $(this).remove();
+        }else if(xAbs <= 16){
+            $(this).css('left', '-4px');
+        }else{
+            /*СВАЙП ВПРАВО*/
+            $('.view-row.d_mode[data-mode="Tree"]').trigger('click');
+            $(this).remove();
+        }
+    }, false);
+});
+//TreeClick_mobile_screen

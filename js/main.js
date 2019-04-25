@@ -2828,3 +2828,8 @@ function GenerateReport(ctrl, reportId) {
             dataType: 'json'
         });
 }
+// function ReturnTree(){
+//     $('.view-row.d_mode[data-mode="Tree"]').trigger('click');
+//     $(this).remove();
+// }
+//TreeClick_mobile_screen
